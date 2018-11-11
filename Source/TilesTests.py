@@ -7,8 +7,10 @@ class TestTilesClass(unittest.TestCase) :
         # Arrange
         letter = 'K'
         score = 2
+        frequency = 1
+        primeNumber = 1
 
-        tile = Tile(letter, score)
+        tile = Tile(letter, score, frequency, primeNumber)
 
         # Act
         result = tile.GetLetter()
@@ -20,8 +22,10 @@ class TestTilesClass(unittest.TestCase) :
         # Arrange
         letter = 'K'
         score = 2
+        frequency = 1
+        primeNumber = 1
 
-        tile = Tile(letter, score)
+        tile = Tile(letter, score, frequency, primeNumber)
 
         # Act
         result = tile.GetScore()
@@ -33,8 +37,10 @@ class TestTilesClass(unittest.TestCase) :
         # Act
         letter = 'A'
         score = 2
+        frequency = 1
+        primeNumber = 1
 
-        tile = Tile(letter, score)
+        tile = Tile(letter, score, frequency, primeNumber)
 
         # Act
         result = tile.IsVowel()
@@ -46,14 +52,46 @@ class TestTilesClass(unittest.TestCase) :
         # Act
         letter = 'B'
         score = 2
+        frequency = 1
+        primeNumber = 1
 
-        tile = Tile(letter, score)
+        tile = Tile(letter, score, frequency, primeNumber)
 
         # Act
         result = tile.IsVowel()
 
         # Assert
         self.assertFalse(result) 
+
+    def test_GetFrequency_ValidFrequency_ReturnsFrequency(self) :
+        # Act
+        letter = 'B'
+        score = 2
+        frequency = 1
+        primeNumber = 1
+
+        tile = Tile(letter, score, frequency, primeNumber)
+
+        # Act
+        result = tile.GetFrequency()
+
+        # Assert
+        self.assertEqual(frequency, result)
+
+    def test_GetPrime_ValidPrimeNumber_ReturnsPrimeNumber(self) :
+        # Act
+        letter = 'B'
+        score = 2
+        frequency = 1
+        primeNumber = 1
+
+        tile = Tile(letter, score, frequency, primeNumber)
+
+        # Act
+        result = tile.GetPrime()
+
+        # Assert
+        self.assertEqual(primeNumber, result)
 
 if __name__ == '__main__' :
     unittest.main()

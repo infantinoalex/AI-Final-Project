@@ -7,9 +7,9 @@ A Hand represents all the tiles a current play can view
 
 class Hand :
 
-    def __init__(self, playerName) :
+    def __init__(self, playerName, tiles) :
         self.playerName = playerName
-        self.tilesInHand = []
+        self.tilesInHand = tiles
         return
 
     def GetPlayerName(self) :
