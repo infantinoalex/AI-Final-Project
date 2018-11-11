@@ -32,7 +32,21 @@ class TestBunchClass(unittest.TestCase) :
         result = len(bunch.GetBunch())
 
         # Assert
-        self.assertEqual(result, expected)        
+        self.assertEqual(result, expected)
+
+    def test_ScoreBunch_ScoreOfOne_ScoreOfOne(self) :
+        # Arrange
+        tiles = []
+        tile = Tile('A', 1, 1, 1)
+        tiles.append(tile)
+        expected = 1
+        bunch = Bunch(tiles)
+
+        # Act
+        result = bunch.ScoreBunch()
+
+        # Assert
+        self.assertEqual(result, expected)
 
     def test_IsBunchEmpty_BunchNotEmpty_ReturnsFalse(self) :
         # Arrange
