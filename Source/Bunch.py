@@ -36,7 +36,7 @@ class Bunch :
 
         # Create 18 E's
         for x in range(18) :
-            tile = Tile('AE', 0)
+            tile = Tile('E', 0)
             self.bunch.append(tile)
 
         #Create 3 F's
