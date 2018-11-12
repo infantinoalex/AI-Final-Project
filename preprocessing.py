@@ -13,11 +13,11 @@
 #
 #########################################################
 
-import matplotlib.pyplot as plt; plt.rcdefaults()
-import pandas as pd
-import numpy as np
 import time
 from operator import itemgetter
+
+import numpy as np
+import pandas as pd
 
 #########################################################
 
@@ -30,7 +30,7 @@ letters_df = pd.read_csv("Data/letters.txt")
 letters_df['frequency'] = pd.Series(np.zeros(len(letters_df)), index=letters_df.index)
 letters_df['prime'] = pd.Series(np.zeros(len(letters_df)), index=letters_df.index)
 
-words = words_df.values[:, 0:1]
+words = words_df.values[:, 0:2]
 letters = letters_df.values[:, 0:6]
 
 #########################################################
@@ -47,10 +47,10 @@ for i, word in enumerate(words) :
             letter[3]+= x
             if x > letter[1] :
                 rejects.append(i)
-valid_words = np.delete(words, rejects) 
+words = np.delete(words, rejects, axis=0) 
 
 end = time.time()
-print "dictionary pruned & letters counted in ", (end - start), "seconds"
+f'dictionary pruned & letters counted in {(end - start)} seconds")'
 
 #########################################################
 
@@ -64,7 +64,7 @@ for letter in letters :
     letter[3] = float(letter[3]) / float(total_letters)
 
 end = time.time()
-print "letter frequencies calculated in ", (end - start), "seconds"
+f'letter frequencies calculated in {(end - start)} seconds'
 
 #########################################################
 
@@ -79,7 +79,7 @@ for num in range(2,103):
         count+= 1
 
 end = time.time()
-print "letter primes calculated in ", (end - start), "seconds"
+f'letter primes calculated in {(end - start)} seconds'
 
 #########################################################
 
@@ -99,25 +99,16 @@ for word in words :
         word[1] = product
  
 end = time.time()
-print "word primes calculated in ", (end - start), "seconds"
+f'word primes calculated in {(end - start)} seconds'
        
 #########################################################
 
 # Write Preprocessed Letters & Words to File
 
-processed_letters_df = pd.DataFrame({
-    'Letters':letters[:, 0], 
-    'Occurances':letters[:, 1], 
-    'Score':letters[:, 2], 
-    'Frequency':letters[:, 3], 
-    'Primes':letters[:, 4]})
+processed_letters_df = pd.DataFrame(letters)
+processed_letters_df.to_csv("Data/processed_letters.txt", header=None, index=None)
 
-processed_words_df = pd.DataFrame({
-    'Words':words[:,0],
-    'Primes':words[:,1]})
-
-processed_letters_df.to_csv("Data/processed_letters.txt")
-processed_words_df.to_csv("Data/processed_words.txt")
+processed_words_df = pd.DataFrame(words)
+processed_words_df.to_csv("Data/processed_words.txt", header=None, index=None)
 
 #########################################################
-
