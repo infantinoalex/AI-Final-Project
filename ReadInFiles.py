@@ -24,8 +24,9 @@ def ReadInTilesFromFile(fileName) :
                 value = int(result[0][1])
                 frequency = int(result[0][2])
                 primeNumber = int(result[0][3])
-                tile = Tile(letter, value, frequency, primeNumber)
-                tiles.append(tile)
+                for loop in range(frequency) :
+                    tile = Tile(letter, value, frequency, primeNumber)
+                    tiles.append(tile)
                 line = filePointer.readline()
 
             else :

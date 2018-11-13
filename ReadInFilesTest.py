@@ -35,6 +35,8 @@ class TestTilesClass(unittest.TestCase) :
         primeNumberB = 3
         tileB = Tile(letterB, valueB, frequencyB, primeNumberB)
         tiles.append(tileB)
+        tiles.append(tileB)
+        tiles.append(tileB)
 
         fileName = "ReadInFilesTestFiles\TestFile.txt"
 
