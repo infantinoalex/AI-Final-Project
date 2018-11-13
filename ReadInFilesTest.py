@@ -24,14 +24,14 @@ class TestTilesClass(unittest.TestCase) :
 
         letterA = 'A'
         valueA = 1
-        frequencyA = 1
+        frequencyA = 0.1
         primeNumberA = 1
         tileA = Tile(letterA, valueA, frequencyA, primeNumberA)
         tiles.append(tileA)
 
         letterB = 'B'
         valueB = 3
-        frequencyB = 3
+        frequencyB = 0.3
         primeNumberB = 3
         tileB = Tile(letterB, valueB, frequencyB, primeNumberB)
         tiles.append(tileB)

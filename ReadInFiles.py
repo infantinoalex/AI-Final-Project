@@ -15,16 +15,17 @@ def ReadInTilesFromFile(fileName) :
     with open(absFilePath, "r") as filePointer :
         line = filePointer.readline()
 
-        regexString = "(\w),(\d),(\d),(\d)"
+        regexString = "(\w),(\d),(\d),(\d+\.\d+),(\d)"
         regex = re.compile(regexString)
         while line :
             if regex.match(line) :
                 result = regex.findall(line)
                 letter = str(result[0][0])
-                value = int(result[0][1])
-                frequency = int(result[0][2])
-                primeNumber = int(result[0][3])
-                for loop in range(frequency) :
+                numberOfTiles = int(result[0][1])
+                value = int(result[0][2])
+                frequency = float(result[0][3])
+                primeNumber = int(result[0][4])
+                for loop in range(numberOfTiles) :
                     tile = Tile(letter, value, frequency, primeNumber)
                     tiles.append(tile)
                 line = filePointer.readline()
