@@ -47,7 +47,7 @@ possible_words = []
 for i, letter in enumerate(word + anchor) : 
     x = letterDict.get(letter)
     product*= x
-f'{product} : {word}'
+print(product, " : ", word)
 
 start = time.time()
 
@@ -66,10 +66,10 @@ for key in anchorDict :
     
 end = time.time()
 
-f'anchor dictionary length: {len(anchorDict)}'
-f'number of possible words: {len(possible_words)}'
-f'{possible_words}'
-f'---'
-f'calculations done in {(end - start)} seconds'
+print("anchor dictionary length:", len(anchorDict))
+print("number of possible words:", len(possible_words))
+print(possible_words)
+print("---")
+print("calculations done in", (end - start), "seconds")
 
 #########################################################

@@ -52,7 +52,7 @@ for i, word in enumerate(words) :
 words = np.delete(words, rejects, axis=0) 
 
 end = time.time()
-f'dictionary pruned & letters counted in {(end - start)} seconds")'
+print("dictionary pruned & letters counted in", (end - start), "seconds")
 
 #########################################################
 
@@ -66,7 +66,7 @@ for letter in letters :
     letter[3] = float(letter[3]) / float(total_letters)
 
 end = time.time()
-f'letter frequencies calculated in {(end - start)} seconds'
+print("letter frequencies calculated in", (end - start), "seconds")
 
 #########################################################
 
@@ -81,7 +81,7 @@ for num in range(2,103):
         count+= 1
 
 end = time.time()
-f'letter primes calculated in {(end - start)} seconds'
+print("letter primes calculated in", (end - start), "seconds")
 
 #########################################################
 
@@ -101,7 +101,7 @@ for word in words :
         word[1] = product
  
 end = time.time()
-f'word primes calculated in {(end - start)} seconds'
+print("word primes calculated in", (end - start), "seconds")
        
 #########################################################
 
