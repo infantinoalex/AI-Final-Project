@@ -13,6 +13,7 @@
 #
 #########################################################
 
+import os
 import time
 from operator import itemgetter
 
@@ -23,14 +24,15 @@ import pandas as pd
 
 # Reading & Formatting Data
 
-words_df = pd.read_csv("Data/words.txt")
-words_df['prime'] = pd.Series(np.zeros(len(words_df)), index=words_df.index)
+directory = os.path.dirname(__file__)
 
-letters_df = pd.read_csv("Data/letters.txt")
+words_df = pd.read_csv(directory + "/../Data/words.txt")
+words_df['prime'] = pd.Series(np.zeros(len(words_df)), index=words_df.index)
+words = words_df.values[:, 0:2]
+
+letters_df = pd.read_csv(directory + "/../Data/letters.txt")
 letters_df['frequency'] = pd.Series(np.zeros(len(letters_df)), index=letters_df.index)
 letters_df['prime'] = pd.Series(np.zeros(len(letters_df)), index=letters_df.index)
-
-words = words_df.values[:, 0:2]
 letters = letters_df.values[:, 0:6]
 
 #########################################################
@@ -106,9 +108,9 @@ f'word primes calculated in {(end - start)} seconds'
 # Write Preprocessed Letters & Words to File
 
 processed_letters_df = pd.DataFrame(letters)
-processed_letters_df.to_csv("Data/processed_letters.txt", header=None, index=None)
+processed_letters_df.to_csv("Data/processed_letters.txt", index=None)
 
 processed_words_df = pd.DataFrame(words)
-processed_words_df.to_csv("Data/processed_words.txt", header=None, index=None)
+processed_words_df.to_csv("Data/processed_words.txt", index=None)
 
 #########################################################
