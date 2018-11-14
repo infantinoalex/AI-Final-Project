@@ -21,7 +21,10 @@ class Words :
             words_df = pd.read_csv(directory + "/../Data/processed_words.txt")
             words = words_df.values[:, 0:2]
             for word in words :
-                self.dict[word[1]] = word[0]
+                if word[1] in self.dict :
+                    self.dict[word[1]].append(word[0])
+                else :
+                    self.dict[word[1]] = [word[0]]
 
     def GetDict(self) :
         return self.dict

@@ -11,14 +11,16 @@ class TestWordsClass(unittest.TestCase) :
     def test_Constructor_DefaultConstructor_ContainsFullDictionary(self) :
 
         # Arrange 
-        expected = 178603
+        expectedWordCount = 178603
         
         # Act
         words = Words()
-        actual = len(words.GetDict())
+        actualWordCount = 0
+        for key in words.GetDict() :
+            actualWordCount+= len(words.GetDict().get(key))
 
         # Assert
-        self.assertEqual(expected, actual)
+        self.assertEqual(expectedWordCount, actualWordCount)
        
 
     def test_Constructor_PassedDictionary_ContainsPassedDictionary(self) :
