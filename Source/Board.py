@@ -9,13 +9,14 @@ then holds every word which gets played throughout the game
 import numpy as np
 from Tile import Tile
 from Anchor import Anchor
+from Word import Word
 
 class Board :
 
     def __init__(self) :
         self.size = 21
         self.board = np.empty([self.size, self.size], dtype=str)
-        self.anchors = Anchor()
+        self.anchors = [Anchor()]
 
         for i in range(self.size) :
             for j in range(self.size) :
@@ -32,15 +33,19 @@ class Board :
         relYPos = anchor.GetYPos()
         if playDirection == 'across' :
             relXPos-= anchorIndex
-            for tile in word :
+            for tile in word.GetTiles() :
                 self.PlaceTile(tile, relXPos, relYPos)
                 relXPos+= 1
-                np.append(self.anchors, Anchor(tile.GetLetter(), relXPos, relYPos))
+                np.append(self.anchors, Anchor([tile], relXPos, relYPos))
         if playDirection == 'down' :
             relYPos-= anchorIndex
-            for tile in word :
+            for tile in word.GetTiles() :
                 self.PlaceTile(tile, relXPos, relYPos)
                 relYPos+= 1
+                np.append(self.anchors, Anchor([tile], relXPos, relYPos))
+        np.append(self.anchors, Anchor(word.GetTiles(), relXPos, relYPos))
+        np.delete(self.anchors, anchor, 0)
+
 
     def PrintBoard(self) :
         for i in range(21) :

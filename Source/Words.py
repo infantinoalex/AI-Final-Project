@@ -51,7 +51,13 @@ class Words :
         jumbledWords = self.WordSearch(word)
         possibleWords = {}
         for key in jumbledWords.GetDict() :
-            w = possibleWords.get(key)
+            w = jumbledWords.GetDict().get(key)
             if (w.Contains(word.GetString())) :
                 possibleWords[key] = w 
         return Words(possibleWords)
+
+    def AnchorSearch(self, word) :
+        if len(word) == 1 :
+            return self.TileSearch(word[0])
+        else :
+            return self.FixedWordSearch(word)
