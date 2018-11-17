@@ -29,3 +29,6 @@ class Word :
 
     def GetPrime(self) :
         return self.primeNumber
+
+    def SetScore(self, score) :
+        self.score = score
