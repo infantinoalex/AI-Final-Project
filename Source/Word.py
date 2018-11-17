@@ -7,7 +7,7 @@ A Word represents a playable letter and is associated score in the game
 
 class Word :
     
-    def __init__(self, tiles):
+    def __init__(self, tiles=None):
         self.tiles = tiles
         self.string = ""
         self.score = 0
