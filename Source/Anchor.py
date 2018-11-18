@@ -12,13 +12,20 @@ class Anchor :
 
     def __init__(self, word=Word(), x=10, y=10) :
         self.data = word
-        self.size = len(word)
         self.xPos = x # position of first letter in anchor
         self.yPos = y # position of first letter in anchor
-        self.possibleWords = Words().AnchorSearch(word)
+        if word.GetString() == '' : 
+            self.size = 0
+            self.possibleWords = Words()
+        else : 
+            self.size = len(word.GetTiles())
+            self.possibleWords = Words().AnchorSearch(word)
 
     def GetData(self) :
         return self.data
+
+    def GetSize(self) :
+        return self.size
 
     def GetPossibleWords(self) :
         return self.possibleWords.GetDict()
