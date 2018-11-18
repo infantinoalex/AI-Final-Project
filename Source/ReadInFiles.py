@@ -15,7 +15,7 @@ def ReadInTilesFromFile(fileName) :
     with open(absFilePath, "r") as filePointer :
         line = filePointer.readline()
 
-        regexString = "(\w),(\d),(\d),(\d+\.\d+),(\d)"
+        regexString = "(\w),(\d+),(\d+),(\d+\.\d+),(\d+)"
         regex = re.compile(regexString)
         while line :
             if regex.match(line) :

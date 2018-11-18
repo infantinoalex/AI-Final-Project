@@ -199,7 +199,7 @@ class TestWordsClass(unittest.TestCase) :
         # Assert
         self.assertTrue(allWordsContainWord)
         self.assertTrue(noWordsContainWord)
-
+        
 
 if __name__ == '__main__' :
     unittest.main()

@@ -4,6 +4,11 @@ unitTestPath = os.path.dirname(__file__) + "/../Source"
 sys.path.append(unitTestPath)
 
 import unittest
+import os
+import sys 
+unitTestPath = os.path.dirname(__file__) + "/../Source"
+sys.path.append(unitTestPath)
+
 import ReadInFiles
 from Tile import Tile
 
@@ -18,7 +23,7 @@ class TestTilesClass(unittest.TestCase) :
 
     def test_ReadInTilesFromFile_InvalidFileFormat_IOErrorRaised(self) :
         # Arrange
-        fileName = "ReadInFilesTestFiles\WrongFileFormat.txt"
+        fileName = "ReadInFilesTestFiles\\WrongFileFormat.txt"
 
         # Act & Asssert
         self.assertRaises(IOError, ReadInFiles.ReadInTilesFromFile, fileName)
@@ -43,7 +48,7 @@ class TestTilesClass(unittest.TestCase) :
         tiles.append(tileB)
         tiles.append(tileB)
 
-        fileName = "ReadInFilesTestFiles\TestFile.txt"
+        fileName = "..\\UnitTests\\ReadInFilesTestFiles\\TestFile.txt"
 
         # Act
         result = ReadInFiles.ReadInTilesFromFile(fileName)
