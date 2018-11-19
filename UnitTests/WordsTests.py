@@ -199,7 +199,37 @@ class TestWordsClass(unittest.TestCase) :
         # Assert
         self.assertTrue(allWordsContainWord)
         self.assertTrue(noWordsContainWord)
-        
+
+    def test_ExactWordSearch_WordExists_ReturnsTrue(self) :
+
+        # Arrange
+        words = Words()
+        c = Tile('C', 3, 0.04049934678472928, 29)
+        a = Tile('A', 1, 0.07633656680151722, 7) 
+        t = Tile('T', 1, 0.06566549066880407, 17)
+        word = Word([c, a, t])
+
+        # Act
+        results = words.ExactWordSearch(word)
+
+        # Assert
+        self.assertTrue(results)
+
+    def test_ExactWordSearch_WordDoesNotExist_ReturnsFalse(self) :
+
+        # Arrange
+        words = Words()
+        c = Tile('C', 3, 0.04049934678472928, 29)
+        q = Tile('Q', 10, 0.0016308292362745903, 101)
+        t = Tile('T', 1, 0.06566549066880407, 17)
+        word = Word([c, q, t])
+
+        # Act
+        results = words.ExactWordSearch(word)
+
+        # Assert
+        self.assertFalse(results)
+    
 
 if __name__ == '__main__' :
     unittest.main()

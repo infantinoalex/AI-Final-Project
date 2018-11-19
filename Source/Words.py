@@ -66,6 +66,18 @@ class Words :
                     else : possibleWords[key] = [element]
         return Words(possibleWords)
 
+    # returns words that contain a set of tiles
+    # the set of tiles must be in the same order as passed
+    def ExactWordSearch(self, word) :
+        key = str(word.GetPrime())
+        value = word.GetString()
+        possibleWords = self.GetDict().get(key)
+        if possibleWords is None :
+            return False
+        elif value in possibleWords :
+                return True
+        else : 
+            return False
 
     def AnchorSearch(self, word) :
         if len(word.GetTiles()) == 1 :
