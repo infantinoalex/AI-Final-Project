@@ -7,16 +7,17 @@ A Word represents a playable letter and is associated score in the game
 
 class Word :
     
-    def __init__(self, tiles=None):
-        self.tiles = tiles
-        self.string = ""
+    def __init__(self, word=None) :
+        self.tiles = word
+        self.string = ''
         self.score = 0
         self.primeNumber = 1
 
-        for tile in tiles :
-            self.string+= tile.GetLetter()
-            self.score+= tile.GetScore()
-            self.primeNumber*= tile.GetPrime()
+        if not self.tiles == None:
+            for tile in self.tiles :
+                self.string+= tile.GetLetter()
+                self.score+= tile.GetScore()
+                self.primeNumber*= tile.GetPrime()
 
     def GetTiles(self) :
         return self.tiles

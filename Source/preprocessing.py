@@ -97,7 +97,7 @@ for word in words :
     product = 1
     if (type(word[0]) is str) :   
         for i, letter in enumerate(word[0]) : 
-            product*= letterDict.get(letter)
+            product*= letterDict.get(letter)        
         word[1] = product
  
 end = time.time()

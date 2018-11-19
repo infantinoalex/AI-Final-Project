@@ -21,7 +21,8 @@ class Words :
             words_df = pd.read_csv(directory + "/../Data/processed_words.txt")
             words = words_df.values[:, 0:2]
             for word in words :
-                self.dict[word[1]] = word[0]
+                if word[1] in self.dict : self.dict[word[1]].append(word[0])
+                else : self.dict[word[1]] = [word[0]]
 
     def GetDict(self) :
         return self.dict
@@ -30,9 +31,12 @@ class Words :
     def TileSearch(self, tile) :
         possibleWords = {}
         a = tile.GetPrime()
-        for key in self.dict :
+        for key, wordList in self.dict.items() :
             if (int(key) % int(a) == 0) :
-                possibleWords[key] = self.dict.get(key)        
+                if key in possibleWords : 
+                    for element in wordList : 
+                        possibleWords[key].append(element)
+                else : possibleWords[key] = wordList    
         return Words(possibleWords)
 
     # returns words that contain a set of tiles
@@ -40,24 +44,43 @@ class Words :
     def WordSearch(self, word) :
         possibleWords = {}
         a = word.GetPrime()
-        for key in self.dict :
+        for key, wordList in self.dict.items() :
             if (int(a) % int(key) == 0) :
-                possibleWords[key] = self.dict.get(key) 
+                if key in possibleWords : 
+                    for element in wordList : 
+                        possibleWords[key].append(element)
+                else : possibleWords[key] = wordList    
         return Words(possibleWords)
 
     # returns words that contain a set of tiles
     # the set of tiles must be in the same order as passed
     def FixedWordSearch(self, word) :
-        jumbledWords = self.WordSearch(word)
+        jumbledWords = {}
         possibleWords = {}
-        for key in jumbledWords.GetDict() :
-            w = jumbledWords.GetDict().get(key)
-            if (w.Contains(word.GetString())) :
-                possibleWords[key] = w 
+        for tile in word.GetTiles() :
+            jumbledWords = self.TileSearch(tile)
+        for key, wordList in jumbledWords.GetDict().items() :
+            for element in wordList : 
+                if (word.GetString() in element) :
+                    if key in possibleWords : possibleWords[key].append(element)
+                    else : possibleWords[key] = [element]
         return Words(possibleWords)
 
+    # returns words that contain a set of tiles
+    # the set of tiles must be in the same order as passed
+    def ExactWordSearch(self, word) :
+        key = str(word.GetPrime())
+        value = word.GetString()
+        possibleWords = self.GetDict().get(key)
+        if possibleWords is None :
+            return False
+        elif value in possibleWords :
+                return True
+        else : 
+            return False
+
     def AnchorSearch(self, word) :
-        if len(word) == 1 :
-            return self.TileSearch(word[0])
+        if len(word.GetTiles()) == 1 :
+            return self.TileSearch(word.GetTiles()[0])
         else :
             return self.FixedWordSearch(word)
