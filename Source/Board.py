@@ -78,7 +78,7 @@ class Board :
                 # the word must fit on the board correctly, aka spaces where word will go
                 # must either be blank or equal to the letter that will be placed there
                 elif not self.WordFits(word, anchor, anchorIndex, playDirection) :
-                    return [False, 'word does not fit n the board correctly']
+                    return [False, 'word does not fit in the board correctly']
             
                 # the word must not create any illegal words, aka the spaces surrounding the
                 # word must be clear or if there are any collisions they must form words
