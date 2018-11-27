@@ -25,4 +25,4 @@ class Tile :
         return self.primeNumber
 
     def IsVowel(self) :
-        return self.letter in ['A', 'E', 'I', 'O', 'U']
+        return self.letter in ['A', 'E', 'I', 'O', 'U', 'Y']
