@@ -1,6 +1,12 @@
+"""
+	Game class
+	Main driver for the game of Bananagrams
+"""
+
 import time
 from Bunch import Bunch
 from Hand import Hand
+from Board import Board
 import Tile
 
 class Game:
@@ -10,7 +16,9 @@ class Game:
 		tiles = self.bunch.DealFromBunch(15)
 		self.hand.AddTilesToHand(tiles)
 		self.bunch.DealFromBunch(15)
-		# self.bri = BRI
+		self.board = Board()
+		self.board.PrintBoard()
+		#self.bri = BRI(heuristic)
 		self.time = 1
 		self.timer = self.time #nanoseconds
 
