@@ -68,6 +68,8 @@ class Words :
 
     # returns words that contain a set of tiles
     # the set of tiles must be in the same order as passed
+    # TODO  change board to list of tiles so that this 
+    #       search can be through primes
     def ExactWordSearch(self, word) :
         key = str(word.GetPrime())
         value = word.GetString()
