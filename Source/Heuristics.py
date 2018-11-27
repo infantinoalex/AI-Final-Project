@@ -8,9 +8,6 @@ class LongestWordHeuristic(Heuristic) :
     def ScoreWord(self, wordToPlay, hand) :
         count = len(wordToPlay)
 
-        # First Ranked Heuristic
-        count *= 100
-
         return count
 
 class UncommonLettersHeuristic(Heuristic) :
@@ -29,9 +26,7 @@ class UncommonLettersHeuristic(Heuristic) :
             score = self.letterScoreDictionary[letter]
             if score > 5 :
                 score += 10
-
-        # Second Ranked Heuristic
-        score *= 50
+                
         return score
 
 class ConsonantVowelHeuristic(Heuristic) :
@@ -68,9 +63,6 @@ class ConsonantVowelHeuristic(Heuristic) :
         else :
             ratio += 5
 
-        # Third Ranked Heuristic
-        score *= 25
-
         return score
 
 class LetterScoringHeuristic(Heuristic) :
@@ -88,8 +80,5 @@ class LetterScoringHeuristic(Heuristic) :
         score = 0
         for letter in wordToPlay :
             score += self.letterScoreDictionary[letter]
-
-        # Fourth Scoring Heuristic
-        score *= 10
 
         return score
