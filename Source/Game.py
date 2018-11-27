@@ -4,21 +4,24 @@
 """
 
 import time
+from Board import Board
 from Bunch import Bunch
 from Hand import Hand
-from Board import Board
+from BRI import BRI
+from Heuristics import LongestWordHeuristic
+from ReadInFiles import ReadInTilesFromFile
 import Tile
 
 class Game:
-	def __init__(self, heuristic=None):
-		self.bunch = Bunch()
-		self.hand = Hand("BRI")
-		tiles = self.bunch.DealFromBunch(15)
-		self.hand.AddTilesToHand(tiles)
+	def __init__(self, heuristic=LongestWordHeuristic()):
+		bunchTiles = ReadInTilesFromFile("..\Data\processed_letters.txt")
+		self.bunch = Bunch(bunchTiles)
+		handTiles = self.bunch.DealFromBunch(15)
+		self.hand = Hand("BRI", handTiles)
 		self.bunch.DealFromBunch(15)
 		self.board = Board()
 		self.board.PrintBoard()
-		#self.bri = BRI(heuristic)
+		self.bri = BRI(heuristic)
 		self.time = 1
 		self.timer = self.time #nanoseconds
 
@@ -33,9 +36,16 @@ class Game:
 	def IsEndState(self):
 		return self.IsGoalState() or self.IsTimeOut()
 
+	# also should consider timer for BRI i.e. cap time spent calculating a move
+	# though maybe we won't need that actually
 	def Play(self):
 		timeStart = time.time()
 		while not self.IsEndState():
+			anchors = self.board.GetAnchors()
+
+			word, anchor, anchorIndex, direction = self.bri.FormWords(self.hand, self.board)
+			self.board.PlaceWord(word, anchor, anchorIndex, direction)
+			self.board.PrintBoard()
 
 			timeDiff = time.time() - timeStart
 			self.timer = self.time - timeDiff
