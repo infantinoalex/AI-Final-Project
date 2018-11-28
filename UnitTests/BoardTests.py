@@ -565,13 +565,12 @@ class TestBoardClass(unittest.TestCase) :
         self.assertFalse(results[0])
         self.assertEqual(results[1], 'word does not fit in the board correctly')
     
- 
     '''
     These tests verify that the IsWordLegal function returns false when
     the word that gets played creates an invalid word from the tiles
     surrounding the area where the word is played and true otherwise
     '''
-    
+
     def test_IsWordLegal_LegalWordAddPrefixOneLetterAnchorAcross_ReturnsTrue(self) :
 
         # Arrange
@@ -977,7 +976,147 @@ class TestBoardClass(unittest.TestCase) :
         self.assertFalse(results[0])
         self.assertEqual(results[1], 'word creates an invalid word when placed')
 
+    
+    def test_IsWordLegal_LegalWordValidCollisionsOneLetterAnchorAcross_ReturnsTrue(self) :
 
+        # Arrange
+        board = Board()
+        a = Tile('a', 1, 0.07633656680151722, 7)
+        b = Tile('b', 3, 0.019012035570253775, 59)
+        e = Tile('e', 1, 0.11533383402651991, 2)      
+        f = Tile('f', 4, 0.0126414510845898, 67)
+        i = Tile('i', 1, 0.0885545324304026, 5)
+        g = Tile('g', 2, 0.02747732680328438, 47)
+        k = Tile('k', 5, 0.009120399881348338, 73)
+        l = Tile('l', 1, 0.05340397735520395, 23)
+        n = Tile('n', 1, 0.06738530865210449, 13)
+        o = Tile('o', 1, 0.0653196336945477, 19)
+        r = Tile('r', 1, 0.07098146383333229, 11)
+        s = Tile('s', 1, 0.09480520300163461, 3)
+        t = Tile('t', 1, 0.06566549066880407, 17)
+
+        linkers = Word([l, i, n, k, e, r, s])
+        belies = Word([b, e, l, i, e, s])
+        nose = Word([n, o, s, e])
+        fastest = Word([f, a, s, t, e, s, t])
+        ring = Word([r, i, n, g])
+        
+        # Act
+        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
+        board.PlaceWord(belies, board.GetAnchors()[1], 3, 'down')
+        board.PlaceWord(nose, board.GetAnchors()[3], 3, 'down')
+        board.PlaceWord(ring, board.GetAnchors()[13], 2, 'across')
+        results = board.IsWordLegal(fastest, board.GetAnchors()[4], 5, 'down')
+        
+        # Assert 
+        self.assertTrue(results[0])
+
+    def test_IsWordLegal_IllegalWordBadCollisionsOneLetterAnchorAcross_ReturnsFalse(self) :
+
+        # Arrange
+        board = Board()
+        a = Tile('a', 1, 0.07633656680151722, 7)
+        b = Tile('b', 3, 0.019012035570253775, 59)
+        e = Tile('e', 1, 0.11533383402651991, 2)      
+        f = Tile('f', 4, 0.0126414510845898, 67)
+        i = Tile('i', 1, 0.0885545324304026, 5)
+        g = Tile('g', 2, 0.02747732680328438, 47)
+        k = Tile('k', 5, 0.009120399881348338, 73)
+        l = Tile('l', 1, 0.05340397735520395, 23)
+        n = Tile('n', 1, 0.06738530865210449, 13)
+        o = Tile('o', 1, 0.0653196336945477, 19)
+        r = Tile('r', 1, 0.07098146383333229, 11)
+        s = Tile('s', 1, 0.09480520300163461, 3)
+        t = Tile('t', 1, 0.06566549066880407, 17)
+
+        linkers = Word([l, i, n, k, e, r, s])
+        belies = Word([b, e, l, i, e, s])
+        nose = Word([n, o, s, e])
+        fattest = Word([f, a, t, t, e, s, t])
+        sing = Word([s, i, n, g])
+        
+        # Act
+        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
+        board.PlaceWord(belies, board.GetAnchors()[1], 3, 'down')
+        board.PlaceWord(nose, board.GetAnchors()[3], 3, 'down')
+        board.PlaceWord(sing, board.GetAnchors()[13], 2, 'across')
+        results = board.IsWordLegal(fattest, board.GetAnchors()[4], 5, 'down')
+        
+        # Assert 
+        self.assertFalse(results[0])
+        self.assertEqual(results[1], 'word creates an invalid word when placed')
+    
+    def test_IsWordLegal_LegalWordValidCollisionsOneLetterAnchorDown_ReturnsTrue(self) :
+
+        # Arrange
+        board = Board()
+        a = Tile('a', 1, 0.07633656680151722, 7)
+        b = Tile('b', 3, 0.019012035570253775, 59)
+        c = Tile('c', 3, 0.04049934678472928, 29)
+        e = Tile('e', 1, 0.11533383402651991, 2)      
+        f = Tile('f', 4, 0.0126414510845898, 67)
+        i = Tile('i', 1, 0.0885545324304026, 5)
+        k = Tile('k', 5, 0.009120399881348338, 73)
+        l = Tile('l', 1, 0.05340397735520395, 23)
+        n = Tile('n', 1, 0.06738530865210449, 13)
+        o = Tile('o', 1, 0.0653196336945477, 19)
+        r = Tile('r', 1, 0.07098146383333229, 11)
+        s = Tile('s', 1, 0.09480520300163461, 3)
+        t = Tile('t', 1, 0.06566549066880407, 17)
+        u = Tile('u', 1, 0.03288670659589642, 37)
+
+        roller = Word([r, o, l, l, e, r])
+        scarab = Word([s, c, a, r, a, b])
+        flan = Word([f, l, a, n])
+        crust = Word([c, r, u, s, t])
+        link = Word([l, i, n, k])
+
+        # Act
+        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
+        board.PlaceWord(scarab, board.GetAnchors()[0], 3, 'across')
+        board.PlaceWord(flan, board.GetAnchors()[2], 1, 'across')
+        board.PlaceWord(link, board.GetAnchors()[15], 2, 'down')
+        results = board.IsWordLegal(crust, board.GetAnchors()[3], 1, 'across')
+        
+        # Assert 
+        self.assertTrue(results[0])
+
+    def test_IsWordLegal_IllegalWordBadCollisionsOneLetterAnchorDown_ReturnsFalse(self) :
+
+        # Arrange
+        board = Board()
+        a = Tile('a', 1, 0.07633656680151722, 7)
+        b = Tile('b', 3, 0.019012035570253775, 59)
+        c = Tile('c', 3, 0.04049934678472928, 29)
+        e = Tile('e', 1, 0.11533383402651991, 2)      
+        f = Tile('f', 4, 0.0126414510845898, 67)
+        i = Tile('i', 1, 0.0885545324304026, 5)
+        k = Tile('k', 5, 0.009120399881348338, 73)
+        l = Tile('l', 1, 0.05340397735520395, 23)
+        m = Tile('m', 3, 0.02830915069392289, 43)
+        n = Tile('n', 1, 0.06738530865210449, 13)
+        o = Tile('o', 1, 0.0653196336945477, 19)
+        r = Tile('r', 1, 0.07098146383333229, 11)
+        s = Tile('s', 1, 0.09480520300163461, 3)
+        t = Tile('t', 1, 0.06566549066880407, 17)
+        u = Tile('u', 1, 0.03288670659589642, 37)
+
+        roller = Word([r, o, l, l, e, r])
+        scarab = Word([s, c, a, r, a, b])
+        flan = Word([f, l, a, n])
+        crumb = Word([c, r, u, m, b])
+        sink = Word([s, i, n, k])
+
+        # Act
+        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
+        board.PlaceWord(scarab, board.GetAnchors()[0], 3, 'across')
+        board.PlaceWord(flan, board.GetAnchors()[2], 1, 'across')
+        board.PlaceWord(sink, board.GetAnchors()[14], 2, 'down')
+        results = board.IsWordLegal(crumb, board.GetAnchors()[3], 1, 'across')
+        
+        # Assert 
+        self.assertFalse(results[0])
+        self.assertEqual(results[1], 'word creates an invalid word when placed')
 
 
     '''
