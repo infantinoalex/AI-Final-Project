@@ -31,8 +31,8 @@ class Board :
 
     def PlaceTile(self, tile, hand, xPos, yPos, playDirection) :
         tileLetter = tile.GetLetter()
-        boardPosition = self.board[xPos, yPos]
-        if not boardPosition == tileLetter :
+        boardPositionLetter = self.board[xPos, yPos].GetLetter()
+        if not boardPositionLetter == tileLetter :
             hand.RemoveTileFromHand(tile)
 
         self.board[xPos, yPos] = tile

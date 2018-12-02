@@ -26,7 +26,7 @@ class Bunch :
         return self.bunch
 
     def Peel(self) :
-        randomInt = randint(1, 5)
+        randomInt = randint(4, 8)
         return self.DealFromBunch(randomInt)
 
     def ScoreBunch(self) :
