@@ -16,12 +16,12 @@ class Board :
 
     def __init__(self) :
         self.size = 21
-        self.board = np.empty([self.size, self.size], dtype=str)
+        self.board = np.empty([self.size, self.size], dtype=Tile)
         self.anchors = [Anchor()]
 
         for i in range(self.size) :
             for j in range(self.size) :
-                self.board[i, j] = ' '
+                self.board[i, j] = Tile()
 
     def GetBoard(self) :
         return self.board
@@ -30,7 +30,7 @@ class Board :
         return self.anchors
 
     def PlaceTile(self, tile, xPos, yPos) :
-        self.board[xPos, yPos] = tile.GetLetter()
+        self.board[xPos, yPos] = tile
 
     def PlaceWord(self, word, anchor, anchorIndex, playDirection) :
         relativeXPos = anchor.GetXPos()
@@ -100,7 +100,7 @@ class Board :
                     print('+---', end="")
                 print('+')
             for j in range(21) :
-                print(' |', self.board[j][i], end="")
+                print(' |', self.board[j][i].GetLetter(), end="")
             print(' |')
             print(end=" ")
             for j in range(21) :
@@ -145,9 +145,9 @@ class Board :
             return False
 
     def TileFits(self, tile, xPos, yPos) :
-        if self.board[xPos, yPos] == ' ' :
+        if self.board[xPos, yPos].GetLetter() == ' ' :
             return True
-        elif self.board[xPos, yPos] == tile.GetLetter() :
+        elif self.board[xPos, yPos].GetLetter() == tile.GetLetter() :
             return True
         else :
             return False 
@@ -178,64 +178,73 @@ class Board :
         relativeYPos = anchor.GetYPos()
         if playDirection == 'across' :
             upperBound = relativeXPos - anchorIndex
-            upperOutOfBounds = self.OutOfBounds(upperBound - 1)
-            upperEqualsSpace = self.board[upperBound - 1, relativeYPos] == ' '
+            prefixUpperBound = upperBound - 1
+            upperOutOfBounds = self.OutOfBounds(prefixUpperBound)
+            upperEqualsSpace = self.board[prefixUpperBound, relativeYPos].GetLetter() == ' '
             lowerBound = relativeXPos + (len(word.GetTiles()) - anchorIndex - 1)
-            lowerOutOfBounds = self.OutOfBounds(lowerBound + 1)
-            lowerEqualsSpace = self.board[lowerBound + 1, relativeYPos] == ' '
+            suffixLowerBound = lowerBound + 1
+            lowerOutOfBounds = self.OutOfBounds(suffixLowerBound)
+            lowerEqualsSpace = self.board[suffixLowerBound, relativeYPos].GetLetter() == ' '
             if not upperOutOfBounds and upperEqualsSpace and not lowerOutOfBounds and lowerEqualsSpace :
                 return True
             while not upperOutOfBounds and not upperEqualsSpace :
-                upperBound-= 1
-                upperOutOfBounds = self.OutOfBounds(upperBound - 1)
-                upperEqualsSpace = self.board[upperBound - 1, relativeYPos] == ' '
+                prefixUpperBound-= 1
+                upperOutOfBounds = self.OutOfBounds(prefixUpperBound)
+                upperEqualsSpace = self.board[prefixUpperBound, relativeYPos].GetLetter() == ' '
             while not lowerOutOfBounds and not lowerEqualsSpace :
-                lowerBound+= 1
-                lowerOutOfBounds = self.OutOfBounds(lowerBound + 1)
-                lowerEqualsSpace = self.board[lowerBound + 1, relativeYPos] == ' '
-            fullWord = ''
-            for i in range(upperBound, lowerBound + 1) :
-                fullWord+= self.board[i, relativeYPos]
-            return Words().ExactWordSearch(fullWord)
+                suffixLowerBound+= 1
+                lowerOutOfBounds = self.OutOfBounds(suffixLowerBound)
+                lowerEqualsSpace = self.board[suffixLowerBound, relativeYPos].GetLetter() == ' '
+            fullWord = []
+            for i in range(prefixUpperBound + 1, upperBound) :
+                fullWord.append(self.board[i, relativeYPos])
+            fullWord+= word.GetTiles()
+            for i in range(lowerBound + 1, suffixLowerBound) :
+                fullWord.append(self.board[i, relativeYPos])
+            return Words().ExactWordSearch(Word(fullWord))
         if playDirection == 'down' :
             upperBound = relativeYPos - anchorIndex
-            upperOutOfBounds = self.OutOfBounds(upperBound - 1)
-            upperEqualsSpace = self.board[relativeXPos, upperBound - 1] == ' '
-            lowerBound = relativeXPos + (len(word.GetTiles()) - anchorIndex - 1)
-            lowerOutOfBounds = self.OutOfBounds(lowerBound + 1)
-            lowerEqualsSpace = self.board[relativeXPos, lowerBound + 1] == ' '
+            prefixUpperBound = upperBound - 1
+            upperOutOfBounds = self.OutOfBounds(prefixUpperBound)
+            upperEqualsSpace = self.board[relativeXPos, prefixUpperBound].GetLetter() == ' '
+            lowerBound = relativeYPos + (len(word.GetTiles()) - anchorIndex - 1)
+            suffixLowerBound = lowerBound + 1
+            lowerOutOfBounds = self.OutOfBounds(suffixLowerBound)
+            lowerEqualsSpace = self.board[relativeXPos, suffixLowerBound].GetLetter() == ' '
             if not upperOutOfBounds and upperEqualsSpace and not lowerOutOfBounds and lowerEqualsSpace :
                 return True
             while not upperOutOfBounds and not upperEqualsSpace :
-                upperBound-= 1
-                upperOutOfBounds = self.OutOfBounds(upperBound - 1)
-                upperEqualsSpace = self.board[relativeXPos, upperBound - 1] == ' '
+                prefixUpperBound-= 1
+                upperOutOfBounds = self.OutOfBounds(prefixUpperBound)
+                upperEqualsSpace = self.board[relativeXPos, prefixUpperBound].GetLetter() == ' '
             while not lowerOutOfBounds and not lowerEqualsSpace :
-                lowerBound+= 1
-                lowerOutOfBounds = self.OutOfBounds(lowerBound + 1)
-                lowerEqualsSpace = self.board[relativeXPos, lowerBound + 1] == ' '
-            fullWord = ''
-            for i in range(upperBound, lowerBound + 1) :
-                fullWord+= self.board[i, relativeYPos]
-            return Words().ExactWordSearch(fullWord)
+                suffixLowerBound+= 1
+                lowerOutOfBounds = self.OutOfBounds(suffixLowerBound)
+                lowerEqualsSpace = self.board[relativeXPos, suffixLowerBound].GetLetter() == ' '
+            fullWord = []
+            for i in range(prefixUpperBound + 1, upperBound) :
+                fullWord.append(self.board[relativeXPos, i])
+            fullWord+= word.GetTiles()
+            for i in range(lowerBound + 1, suffixLowerBound) :
+                fullWord.append(self.board[relativeXPos, i])
+            return Words().ExactWordSearch(Word(fullWord))
 
     def WordCreatesInvalidWord(self, word, anchor, anchorIndex, playDirection) :
         invalidWord = False
-        if playDirection == 'across' :
-            if not self.PrefixAndSuffixClear(word, anchor, anchorIndex, playDirection) : 
-                invalidWord = True
-            for i in range(len(word.GetTiles())) :
-                tile = word.GetTiles()[i]
-                if i is not anchorIndex :
-                    if not self.PrefixAndSuffixClear(Word([tile]), anchor, anchorIndex, playDirection) : 
-                        invalidWord = True
-        if playDirection == 'down' :
-            if not self.PrefixAndSuffixClear(word, anchor, anchorIndex, playDirection) : 
-                invalidWord = True
-            for i in range(len(word.GetTiles())) :
-                tile = word.GetTiles()[i]
-                if i is not anchorIndex :
-                    if not self.PrefixAndSuffixClear(Word([tile]), anchor, anchorIndex, playDirection) : 
-                        invalidWord = True
+        if not self.PrefixAndSuffixClear(word, anchor, anchorIndex, playDirection) : 
+            invalidWord = True
+        for i in range(len(word.GetTiles())) :
+            tile = word.GetTiles()[i]
+            temp = Word([tile])
+            if i is not anchorIndex and playDirection is 'across':
+                x = anchor.GetXPos() - anchorIndex + i
+                y = anchor.GetYPos()
+                if not self.PrefixAndSuffixClear(temp, Anchor(temp, x, y), 0, 'down') : 
+                    invalidWord = True
+            if i is not anchorIndex and playDirection is 'down':
+                x = anchor.GetXPos()
+                y = anchor.GetYPos() - anchorIndex + i
+                if not self.PrefixAndSuffixClear(temp, Anchor(temp, x, y), 0, 'across') : 
+                    invalidWord = True
         return invalidWord
 

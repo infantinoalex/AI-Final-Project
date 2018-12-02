@@ -6,7 +6,7 @@ A Tile represents a playable letter and is associated score in the game
 """
 
 class Tile :
-    def __init__(self, letter, score, frequency, primeNumber):
+    def __init__(self, letter=' ', score=0, frequency=0, primeNumber=1):
         self.letter = letter
         self.score = score
         self.frequency = frequency
