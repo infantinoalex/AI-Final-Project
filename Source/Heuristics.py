@@ -33,8 +33,8 @@ class UncommonLettersHeuristic :
 
     def ScoreWord(self, wordToPlay, hand) :
         score = 0
-        for letter in wordToPlay :
-            score = self.letterScoreDictionary[letter]
+        for tile in wordToPlay.GetTiles() :
+            score = self.letterScoreDictionary[tile.GetLetter()]
             if score > 5 :
                 score += 10
                 
@@ -54,13 +54,19 @@ class ConsonantVowelHeuristic :
         numberOfConsonants = 0
         numberOfVowels = 0
 
+        handTiles = hand.PeekHand()
+        handTilesLetters = []
+
+        for tile in handTiles :
+            handTilesLetters.append(tile.GetLetter())
+
         score = 0
-        for letter in wordToPlay :
-            foundTile = self.letterScoreDictionary[letter]
+        for tile in wordToPlay.GetTiles() :
+            foundTile = self.letterScoreDictionary[tile.GetLetter()]
 
-            hand.RemoveTileFromHand(foundTile)
+            handTilesLetters.remove(foundTile.GetLetter())
 
-        for tile in hand :
+        for tile in hand.PeekHand() :
             if (tile.IsVowel) :
                 numberOfVowels += 1
             else :
@@ -89,7 +95,7 @@ class LetterScoringHeuristic :
 
     def ScoreWord(self, wordToPlay, hand) :
         score = 0
-        for letter in wordToPlay :
-            score += self.letterScoreDictionary[letter]
+        for tile in wordToPlay.GetTiles() :
+            score += self.letterScoreDictionary[tile.GetLetter()]
 
         return score
