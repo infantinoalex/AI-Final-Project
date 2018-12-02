@@ -175,21 +175,25 @@ class Board :
             upperBound = relativeXPos - anchorIndex
             prefixUpperBound = upperBound - 1
             upperOutOfBounds = self.OutOfBounds(prefixUpperBound)
-            upperEqualsSpace = self.board[prefixUpperBound, relativeYPos].GetLetter() == ' '
+            if upperOutOfBounds : upperEqualsSpace = False
+            else : upperEqualsSpace = self.board[prefixUpperBound, relativeYPos].GetLetter() == ' '
             lowerBound = relativeXPos + (len(word.GetTiles()) - anchorIndex - 1)
             suffixLowerBound = lowerBound + 1
             lowerOutOfBounds = self.OutOfBounds(suffixLowerBound)
-            lowerEqualsSpace = self.board[suffixLowerBound, relativeYPos].GetLetter() == ' '
+            if lowerOutOfBounds : lowerOutOfBounds = False
+            else : lowerEqualsSpace = self.board[suffixLowerBound, relativeYPos].GetLetter() == ' '
             if not upperOutOfBounds and upperEqualsSpace and not lowerOutOfBounds and lowerEqualsSpace :
                 return True
             while not upperOutOfBounds and not upperEqualsSpace :
                 prefixUpperBound-= 1
                 upperOutOfBounds = self.OutOfBounds(prefixUpperBound)
-                upperEqualsSpace = self.board[prefixUpperBound, relativeYPos].GetLetter() == ' '
+                if upperOutOfBounds : upperEqualsSpace = False
+                else : upperEqualsSpace = self.board[prefixUpperBound, relativeYPos].GetLetter() == ' '
             while not lowerOutOfBounds and not lowerEqualsSpace :
                 suffixLowerBound+= 1
                 lowerOutOfBounds = self.OutOfBounds(suffixLowerBound)
-                lowerEqualsSpace = self.board[suffixLowerBound, relativeYPos].GetLetter() == ' '
+                if lowerOutOfBounds : lowerOutOfBounds = False
+                else : lowerEqualsSpace = self.board[suffixLowerBound, relativeYPos].GetLetter() == ' '
             fullWord = []
             for i in range(prefixUpperBound + 1, upperBound) :
                 fullWord.append(self.board[i, relativeYPos])
@@ -201,21 +205,25 @@ class Board :
             upperBound = relativeYPos - anchorIndex
             prefixUpperBound = upperBound - 1
             upperOutOfBounds = self.OutOfBounds(prefixUpperBound)
-            upperEqualsSpace = self.board[relativeXPos, prefixUpperBound].GetLetter() == ' '
+            if upperOutOfBounds : upperEqualsSpace = False
+            else : upperEqualsSpace = self.board[relativeXPos, prefixUpperBound].GetLetter() == ' '
             lowerBound = relativeYPos + (len(word.GetTiles()) - anchorIndex - 1)
             suffixLowerBound = lowerBound + 1
             lowerOutOfBounds = self.OutOfBounds(suffixLowerBound)
-            lowerEqualsSpace = self.board[relativeXPos, suffixLowerBound].GetLetter() == ' '
+            if lowerOutOfBounds : lowerEqualsSpace = False
+            else : lowerEqualsSpace = self.board[relativeXPos, suffixLowerBound].GetLetter() == ' '
             if not upperOutOfBounds and upperEqualsSpace and not lowerOutOfBounds and lowerEqualsSpace :
                 return True
             while not upperOutOfBounds and not upperEqualsSpace :
                 prefixUpperBound-= 1
                 upperOutOfBounds = self.OutOfBounds(prefixUpperBound)
-                upperEqualsSpace = self.board[relativeXPos, prefixUpperBound].GetLetter() == ' '
+                if upperOutOfBounds : upperEqualsSpace = False
+                else : upperEqualsSpace = self.board[relativeXPos, prefixUpperBound].GetLetter() == ' '
             while not lowerOutOfBounds and not lowerEqualsSpace :
                 suffixLowerBound+= 1
                 lowerOutOfBounds = self.OutOfBounds(suffixLowerBound)
-                lowerEqualsSpace = self.board[relativeXPos, suffixLowerBound].GetLetter() == ' '
+                if lowerOutOfBounds : lowerEqualsSpace = False
+                else : lowerEqualsSpace = self.board[relativeXPos, suffixLowerBound].GetLetter() == ' '
             fullWord = []
             for i in range(prefixUpperBound + 1, upperBound) :
                 fullWord.append(self.board[relativeXPos, i])
