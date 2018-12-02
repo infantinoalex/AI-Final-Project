@@ -16,7 +16,7 @@ class Hand :
         return self.playerName
 
     def PeekHand(self):
-        return self.tilesInHand
+        return self.tilesInHand.copy()
 
     def AddTileToHand(self, tile) :
         self.tilesInHand.append(tile)
@@ -33,8 +33,6 @@ class Hand :
                 return
             
         raise ValueError("Could not find specified tile in the list", tile)
-
-        return
 
     def IsHandEmpty(self) :
         return not self.tilesInHand
