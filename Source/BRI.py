@@ -2,11 +2,10 @@ from Word import Word
 from Words import Words
 from Board import Board
 from Tile import Tile
-from Heuristics import GetHeuristic
 
 class BRI:
-    def __init__(self, heuristic=""):
-        self.heuristic = GetHeuristic(heuristic)
+    def __init__(self, heuristic):
+        self.heuristic = heuristic
 
     def FindBestMove(self, hand, board):
         #Return word, anchor, anchorindex, direction

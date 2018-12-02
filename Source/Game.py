@@ -22,9 +22,9 @@ class Game:
 		self.board.PrintBoard()
 
 		heuristics = []
+		heuristics.append(LongestWordHeuristic())
 
 		heuristic = Heuristic(heuristics)
-		heuristics.append(LongestWordHeuristic)
 
 		self.bri = BRI(heuristic)
 		self.time = 1000

@@ -6,8 +6,8 @@ class Heuristic :
 
     def ScoreWord(self, wordToPlay, hand) :
         score = 0
-        for hueristic in self.heuristcs :
-            score += hueristic.ScoreWord(wordToPlay, hand)
+        for hueristicToCheck in self.heuristcs :
+            score += hueristicToCheck.ScoreWord(wordToPlay, hand)
 
         return score
 
@@ -15,13 +15,13 @@ class NullHeuristic :
     def ScoreWord(self, wordToPlay, hand) :
         return 0
 
-class LongestWordHeuristic() :
+class LongestWordHeuristic :
     def ScoreWord(self, wordToPlay, hand) :
         count = len(wordToPlay.GetTiles())
 
         return count
 
-class UncommonLettersHeuristic() :
+class UncommonLettersHeuristic :
     def __init__(self) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
@@ -40,7 +40,7 @@ class UncommonLettersHeuristic() :
                 
         return score
 
-class ConsonantVowelHeuristic() :
+class ConsonantVowelHeuristic :
     def __init__(self) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
@@ -76,7 +76,7 @@ class ConsonantVowelHeuristic() :
 
         return score
 
-class LetterScoringHeuristic() :
+class LetterScoringHeuristic :
     def __init__(self) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\Data\processed_letters.txt")
@@ -93,13 +93,3 @@ class LetterScoringHeuristic() :
             score += self.letterScoreDictionary[letter]
 
         return score
-
-def GetHeuristic(heuristic):
-    if heuristic is "LongestWordHeuristic":
-        return LongestWordHeuristic()
-    elif heuristic is "UncommonLettersHeuristic":
-        return UncommonLettersHeuristic()
-    elif heuristic is "ConsonantVowelHeuristic":
-        return ConsonantVowelHeuristic()
-    else:
-        print("Heuristic could not be found.")
