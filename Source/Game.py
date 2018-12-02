@@ -58,15 +58,18 @@ class Game:
 			self.hand.AddTilesToHand(self.bunch.Peel())
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
+			print()
 			timeDiff = time.time() - timeStart
 			print("Time:", timeDiff)
 			self.timer = self.time - timeDiff
 
-		#if IsGoalState():
-			# do something
+		if self.IsGoalState():
+			print("Goal achieved! BRI is the winner!")
 
 		if self.IsTimeOut():
-			print("Game timed out")
+			print("Game timed out! Sorry, try harder next time")
+
+		print("Words played were:", playedWords)
 
 
 game = Game()
