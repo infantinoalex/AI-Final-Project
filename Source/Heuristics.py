@@ -55,7 +55,7 @@ class ConsonantVowelHeuristic(Heuristic) :
             else :
                 numberOfConsonants += 1
 
-        ratio = (float)numberOfConsonants / (float)numberOfVowels
+        ratio = float(numberOfConsonants) / float(numberOfVowels)
 
         if ratio <= 2.5 and ratio >= 1.3 :
             score += 25

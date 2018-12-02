@@ -14,8 +14,7 @@ import Tile
 
 class Game:
 	def __init__(self, heuristic=LongestWordHeuristic()):
-		bunchTiles = ReadInTilesFromFile("..\Data\processed_letters.txt")
-		self.bunch = Bunch(bunchTiles)
+		self.bunch = Bunch()
 		handTiles = self.bunch.DealFromBunch(15)
 		self.hand = Hand("BRI", handTiles)
 		self.bunch.DealFromBunch(15)
