@@ -39,12 +39,14 @@ class Board :
         if playDirection == 'across' :
             relativeXPos-= anchorIndex
             for tile in word.GetTiles() :
-                self.PlaceTile(tile, relativeXPos, relativeYPos)                
+                self.PlaceTile(tile, relativeXPos, relativeYPos)
+                self.anchors.append(Anchor(tile, relativeXPos, relativeYPos, 'down'))
                 relativeXPos+= 1
         if playDirection == 'down' :
             relativeYPos-= anchorIndex
             for tile in word.GetTiles() :
                 self.PlaceTile(tile, relativeXPos, relativeYPos)
+                self.anchors.append(Anchor(tile, relativeXPos, relativeYPos, 'across'))
                 relativeYPos+= 1
         self.anchors.remove(anchor)
 

@@ -53,7 +53,7 @@ class Game:
 			self.board.PlaceWord(word, anchor, anchorIndex, direction)
 			self.board.PrintBoard()
 			for w in word.GetTiles():
-				if w is not anchor.GetData():
+				if w is not anchor.GetTile():
 					self.hand.RemoveTileFromHand(w)
 			self.hand.AddTilesToHand(self.bunch.Peel())
 			for t in self.hand.PeekHand():
