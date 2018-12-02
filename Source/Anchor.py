@@ -10,10 +10,11 @@ from Words import Words
 
 class Anchor :
 
-    def __init__(self, tile=Tile(), x=10, y=10) :
+    def __init__(self, tile=Tile(), x=10, y=10, dir="down") :
         self.data = tile
         self.xPos = x # position of the tile on the board
         self.yPos = y # position of the tile on the board
+        self.dir = dir
         if self.data.GetLetter() == ' ' : 
             self.possibleWords = Words()
         else : 
@@ -33,3 +34,6 @@ class Anchor :
 
     def GetYPos(self) :
         return self.yPos
+
+    def GetDirection(self):
+        return self.dir

@@ -29,31 +29,31 @@ class BRI:
         # check for case no legal move is found
         if bestWord.GetScore() is 0:
             print("BRI: No valid word options found!")
+            return None
         return bestWord, bestAnchor, bestIndex, bestDirection
 
     def MatchWords(self, hand, anchor, board):
         # match available tiles in hand to possible words for a certain anchor
         anchorWords = anchor.GetPossibleWords()
         handTiles = hand.PeekHand()
-        anchorTiles = anchor.GetData().GetTiles()
-        if anchorTiles :
-            handTiles.extend(anchorTiles)
+        anchorTile = anchor.GetTile()
+        if anchorTile.GetLetter is " ":
+            handTiles.append(anchorTile)
         tiles = handTiles
         totalHand = Word(tiles)
         options = anchorWords.WordSearch(totalHand)
-        playDirections = ['across', 'down']
         optionsCleaned = dict()
+        dir = anchor.GetDirection()
         for key, strWordList in options.GetDict().items():
             for strWord in strWordList:
                 word = self.MakeItWord(strWord)
-                if anchor.GetData().GetString() is "":
+                if anchor.GetLetter() is " ":
                     indices = [int(len(strWord)/2)]
                 else:
-                    indices = [i for i, a in enumerate(word.GetString()) if a == anchor.GetData().GetString() ]
+                    indices = [i for i, a in enumerate(word.GetString()) if a == anchor.GetLetter() ]
                 for i in indices:
-                    for d in playDirections:
-                        if board.IsWordLegal(word, anchor, i, d):
-                            optionsCleaned[word] = (i, d)
+                    if board.IsWordLegal(word, anchor, i, dir):
+                        optionsCleaned[word] = (i, dir)
         return optionsCleaned
 
     def MakeItWord(self, word):
