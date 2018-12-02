@@ -29,14 +29,14 @@ class Board :
     def GetAnchors(self) :
         return self.anchors
 
-    def PlaceTile(self, tile, hand, xPos, yPos) :
+    def PlaceTile(self, tile, hand, xPos, yPos, playDirection) :
         tileLetter = tile.GetLetter()
-        boardPosition = self.board[xPos, yPos]
-        if not boardPosition == tileLetter :
+        boardPositionLetter = self.board[xPos, yPos].GetLetter()
+        if not boardPositionLetter == tileLetter :
             hand.RemoveTileFromHand(tile)
 
         self.board[xPos, yPos] = tile
-        self.anchors.append(Anchor(tile, xPos, yPos))
+        self.anchors.append(Anchor(tile, xPos, yPos, playDirection))
 
     def PlaceWord(self, word, anchor, hand, anchorIndex, playDirection) :
         relativeXPos = anchor.GetXPos()
@@ -44,12 +44,12 @@ class Board :
         if playDirection == 'across' :
             relativeXPos-= anchorIndex
             for tile in word.GetTiles() :
-                self.PlaceTile(tile, hand, relativeXPos, relativeYPos)                
+                self.PlaceTile(tile, hand, relativeXPos, relativeYPos, 'down')                
                 relativeXPos+= 1
         if playDirection == 'down' :
             relativeYPos-= anchorIndex
             for tile in word.GetTiles() :
-                self.PlaceTile(tile, hand, relativeXPos, relativeYPos)
+                self.PlaceTile(tile, hand, relativeXPos, relativeYPos, 'across')
                 relativeYPos+= 1
         self.anchors.remove(anchor)
 
