@@ -50,11 +50,8 @@ class Game:
 			word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
 			playedWords.append(word.GetString())
 			print(playedWords)
-			self.board.PlaceWord(word, anchor, anchorIndex, direction)
+			self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
 			self.board.PrintBoard()
-			for w in word.GetTiles():
-				if w is not anchor.GetData():
-					self.hand.RemoveTileFromHand(w)
 			self.hand.AddTilesToHand(self.bunch.Peel())
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
