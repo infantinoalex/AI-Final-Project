@@ -7,13 +7,17 @@ or have not been played yet
 """
 
 from Tile import Tile
+from ReadInFiles import ReadInTilesFromFile
 from random import shuffle
 from random import randint
 
 class Bunch :
 
-    def __init__(self, tiles) :
-        self.bunch = tiles
+    def __init__(self, tiles = []) :
+        if (not tiles) :
+            self.bunch = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
+        else :
+            self.bunch = tiles
 
         for x in range(10) :
             shuffle(self.bunch)
