@@ -19,7 +19,6 @@ class BRI:
             words = self.MatchWords(hand, anchor, board)
             # set scores for words, find best word
             for word in words.keys():
-                # check if legal FIRST
                 word.SetScore(self.heuristic.ScoreWord(word, hand))
                 if word.GetScore() > bestWord.GetScore():
                     bestWord = word
