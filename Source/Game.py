@@ -4,22 +4,30 @@
 """
 
 import time
+from Board import Board
 from Bunch import Bunch
 from Hand import Hand
-from Board import Board
+from BRI import BRI
+from Heuristics import *
+from ReadInFiles import ReadInTilesFromFile
 import Tile
 
 class Game:
-	def __init__(self, heuristic=None):
+	def __init__(self, heuristic="LongestWordHeuristic"):
 		self.bunch = Bunch()
-		self.hand = Hand("BRI")
-		tiles = self.bunch.DealFromBunch(15)
-		self.hand.AddTilesToHand(tiles)
+		handTiles = self.bunch.DealFromBunch(15)
+		self.hand = Hand("BRI", handTiles)
 		self.bunch.DealFromBunch(15)
 		self.board = Board()
 		self.board.PrintBoard()
-		#self.bri = BRI(heuristic)
-		self.time = 1
+
+		heuristics = []
+		heuristics.append(LongestWordHeuristic())
+
+		heuristic = Heuristic(heuristics)
+
+		self.bri = BRI(heuristic)
+		self.time = 1000
 		self.timer = self.time #nanoseconds
 
 	def IsGoalState(self):
@@ -33,11 +41,25 @@ class Game:
 	def IsEndState(self):
 		return self.IsGoalState() or self.IsTimeOut()
 
+	# also should consider timer for BRI i.e. cap time spent calculating a move
+	# though maybe we won't need that actually
 	def Play(self):
 		timeStart = time.time()
+		playedWords = []
 		while not self.IsEndState():
-
+			word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
+			playedWords.append(word.GetString())
+			print(playedWords)
+			self.board.PlaceWord(word, anchor, anchorIndex, direction)
+			self.board.PrintBoard()
+			for w in word.GetTiles():
+				if w is not anchor.GetData():
+					self.hand.RemoveTileFromHand(w)
+			self.hand.AddTilesToHand(self.bunch.Peel())
+			for t in self.hand.PeekHand():
+				print(t.GetLetter(), end=" ")
 			timeDiff = time.time() - timeStart
+			print("Time:", timeDiff)
 			self.timer = self.time - timeDiff
 
 		#if IsGoalState():

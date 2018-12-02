@@ -26,7 +26,7 @@ class Anchor :
         return self.data.GetLetter()
 
     def GetPossibleWords(self) :
-        return self.possibleWords.GetDict()
+        return self.possibleWords
 
     def GetXPos(self) :
         return self.xPos

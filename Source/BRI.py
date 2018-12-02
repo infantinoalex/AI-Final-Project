@@ -1,28 +1,69 @@
 from Word import Word
+from Words import Words
+from Board import Board
+from Tile import Tile
 
 class BRI:
     def __init__(self, heuristic):
         self.heuristic = heuristic
 
-    def FormWords(self, anchors, hand):
-        #Return word, anchor
-        # How will we represent direction of the word? Should return that as well
+    def FindBestMove(self, hand, board):
+        #Return word, anchor, anchorindex, direction
         #Get words for each anchor, find best word, compare best words sequentially
-        bestWord = Word() # initialize to empty word
+        anchors = board.GetAnchors()
+        bestWord = Word()
+        bestWord.SetScore = 0
         for anchor in anchors:
             # get list of possible words for each anchor
-            anchorWords = anchor.GetPossibleWords()
             # match words to hand
-            words, anchor = MatchWords(hand, anchorWords)
+            words = self.MatchWords(hand, anchor, board)
             # set scores for words, find best word
-            for word in words:
+            for word in words.keys():
+                # check if legal FIRST
                 word.SetScore(self.heuristic.ScoreWord(word, hand))
                 if word.GetScore() > bestWord.GetScore():
                     bestWord = word
                     bestAnchor = anchor
-        return bestWord, bestAnchor
+                    bestIndex = words[word][0]
+                    bestDirection = words[word][1]
+        # check for case no legal move is found
+        if bestWord.GetScore() is 0:
+            print("BRI: No valid word options found!")
+        return bestWord, bestAnchor, bestIndex, bestDirection
 
-    def MatchWords(self, hand, wordList):
-        # match available tiles in hand to possible words
-        # return word, anchor
+    def MatchWords(self, hand, anchor, board):
+        # match available tiles in hand to possible words for a certain anchor
+        anchorWords = anchor.GetPossibleWords()
+        handTiles = hand.PeekHand()
+        anchorTiles = anchor.GetData().GetTiles()
+        if anchorTiles :
+            handTiles.extend(anchorTiles)
+        tiles = handTiles
+        totalHand = Word(tiles)
+        options = anchorWords.WordSearch(totalHand)
+        playDirections = ['across', 'down']
+        optionsCleaned = dict()
+        for key, strWordList in options.GetDict().items():
+            for strWord in strWordList:
+                word = self.MakeItWord(strWord)
+                if anchor.GetData().GetString() is "":
+                    indices = [int(len(strWord)/2)]
+                else:
+                    indices = [i for i, a in enumerate(word.GetString()) if a == anchor.GetData().GetString() ]
+                for i in indices:
+                    for d in playDirections:
+                        if board.IsWordLegal(word, anchor, i, d):
+                            optionsCleaned[word] = (i, d)
+        return optionsCleaned
 
+    def MakeItWord(self, word):
+        tiles = []
+        for i in range(len(word)):
+            tiles.append(Tile(word[i]))
+        return Word(tiles)
+
+# tile1 = Tile('A', 1, 1, 1)
+# word = Word(tile1)
+# anchor = 
+
+# FormWords(Anchor(Word(Tile())))
