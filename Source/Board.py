@@ -31,6 +31,7 @@ class Board :
 
     def PlaceTile(self, tile, xPos, yPos) :
         self.board[xPos, yPos] = tile
+        self.anchors.append(Anchor(tile, xPos, yPos))
 
     def PlaceWord(self, word, anchor, anchorIndex, playDirection) :
         relativeXPos = anchor.GetXPos()
@@ -38,16 +39,13 @@ class Board :
         if playDirection == 'across' :
             relativeXPos-= anchorIndex
             for tile in word.GetTiles() :
-                self.PlaceTile(tile, relativeXPos, relativeYPos)
-                self.anchors.append(Anchor(Word([tile]), relativeXPos, relativeYPos))
+                self.PlaceTile(tile, relativeXPos, relativeYPos)                
                 relativeXPos+= 1
         if playDirection == 'down' :
             relativeYPos-= anchorIndex
             for tile in word.GetTiles() :
                 self.PlaceTile(tile, relativeXPos, relativeYPos)
-                self.anchors.append(Anchor(Word([tile]), relativeXPos, relativeYPos))
                 relativeYPos+= 1
-        self.anchors.append(Anchor(word, relativeXPos, relativeYPos))
         self.anchors.remove(anchor)
 
     def IsWordLegal(self, word, anchor, anchorIndex, playDirection) :
@@ -62,35 +60,27 @@ class Board :
 
         # at this point, if the anchor is the default anchor, 
         # we can stop checking and confirm that the word is legal
-        elif anchor.GetSize() is 0 :
+        elif anchor.GetLetter() is ' ' :
             return [True, 'word with default anchor is legal :)']
 
         # otherwise we have more checks to make
         else :
 
-            # cover the case where an anchor is only one tile            
-            if anchor.GetSize() is 1 :
+            # anchor must mach the letter at the anchor index
+            if not self.AnchorIndexCorrect(word, anchor, anchorIndex) :
+                return [False, 'anchorIndex is invalid']
 
-                # anchor must mach the letter at the anchor index
-                if not self.AnchorIndexCorrect(word, anchor, anchorIndex) :
-                    return [False, 'anchorIndex is invalid']
+            # the word must fit on the board correctly, aka spaces where word will go
+            # must either be blank or equal to the letter that will be placed there
+            elif not self.WordFits(word, anchor, anchorIndex, playDirection) :
+                return [False, 'word does not fit in the board correctly']
+        
+            # the word must not create any illegal words, aka the spaces surrounding the
+            # word must be clear or if there are any collisions they must form words
+            elif self.WordCreatesInvalidWord(word, anchor, anchorIndex, playDirection) :
+                return [False, 'word creates an invalid word when placed']
 
-                # the word must fit on the board correctly, aka spaces where word will go
-                # must either be blank or equal to the letter that will be placed there
-                elif not self.WordFits(word, anchor, anchorIndex, playDirection) :
-                    return [False, 'word does not fit in the board correctly']
-            
-                # the word must not create any illegal words, aka the spaces surrounding the
-                # word must be clear or if there are any collisions they must form words
-                elif self.WordCreatesInvalidWord(word, anchor, anchorIndex, playDirection) :
-                    return [False, 'word creates an invalid word when placed']
-
-                else : return [True, 'word with one letter anchor is legal :)']
-
-            # cover the case where an anchor is many tiles
-            else :
-                return [False, 'not implemented yet']
-
+            else : return [True, 'word is legal :)']
 
     def PrintBoard(self) :
         for i in range(21) :
@@ -137,11 +127,12 @@ class Board :
             return False
     
     def AnchorIndexCorrect(self, word, anchor, anchorIndex) :
-        expectedAnchorIndex = anchor.GetData().GetTiles()[0].GetLetter()
-        actualAnchorIndex = word.GetTiles()[anchorIndex].GetLetter()
-        if expectedAnchorIndex is actualAnchorIndex :
+        expectedAnchorLetter = anchor.GetLetter()
+        actualAnchorLetter = word.GetTiles()[anchorIndex].GetLetter()
+        if expectedAnchorLetter is actualAnchorLetter :
             return True
         else :
+            print(expectedAnchorLetter, "!=", actualAnchorLetter)
             return False
 
     def TileFits(self, tile, xPos, yPos) :
@@ -239,12 +230,12 @@ class Board :
             if i is not anchorIndex and playDirection is 'across':
                 x = anchor.GetXPos() - anchorIndex + i
                 y = anchor.GetYPos()
-                if not self.PrefixAndSuffixClear(temp, Anchor(temp, x, y), 0, 'down') : 
+                if not self.PrefixAndSuffixClear(temp, Anchor(tile, x, y), 0, 'down') : 
                     invalidWord = True
             if i is not anchorIndex and playDirection is 'down':
                 x = anchor.GetXPos()
                 y = anchor.GetYPos() - anchorIndex + i
-                if not self.PrefixAndSuffixClear(temp, Anchor(temp, x, y), 0, 'across') : 
+                if not self.PrefixAndSuffixClear(temp, Anchor(tile, x, y), 0, 'across') : 
                     invalidWord = True
         return invalidWord
 

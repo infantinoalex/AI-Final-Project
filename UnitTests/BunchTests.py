@@ -1,8 +1,3 @@
-import os
-import sys 
-unitTestPath = os.path.dirname(__file__) + "/../Source"
-sys.path.append(unitTestPath)
-
 import unittest
 import os
 import sys 

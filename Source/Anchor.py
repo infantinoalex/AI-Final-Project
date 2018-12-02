@@ -5,27 +5,25 @@ An Anchor is a place where a word can be played
 
 """
 
-from Word import Word
+from Tile import Tile
 from Words import Words
 
 class Anchor :
 
-    def __init__(self, word=Word(), x=10, y=10) :
-        self.data = word
-        self.xPos = x # position of first letter in anchor
-        self.yPos = y # position of first letter in anchor
-        if word.GetString() == '' : 
-            self.size = 0
+    def __init__(self, tile=Tile(), x=10, y=10) :
+        self.data = tile
+        self.xPos = x # position of the tile on the board
+        self.yPos = y # position of the tile on the board
+        if self.data.GetLetter() == ' ' : 
             self.possibleWords = Words()
         else : 
-            self.size = len(word.GetTiles())
-            self.possibleWords = Words().AnchorSearch(word)
+            self.possibleWords = Words().TileSearch(self.data)
 
-    def GetData(self) :
+    def GetTile(self) :
         return self.data
 
-    def GetSize(self) :
-        return self.size
+    def GetLetter(self) :
+        return self.data.GetLetter()
 
     def GetPossibleWords(self) :
         return self.possibleWords.GetDict()
