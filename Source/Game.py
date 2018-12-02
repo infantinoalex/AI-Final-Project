@@ -13,7 +13,7 @@ from ReadInFiles import ReadInTilesFromFile
 import Tile
 
 class Game:
-	def __init__(self, heuristic=LongestWordHeuristic()):
+	def __init__(self, heuristic="LongestWordHeuristic"):
 		self.bunch = Bunch()
 		handTiles = self.bunch.DealFromBunch(15)
 		self.hand = Hand("BRI", handTiles)
@@ -21,7 +21,7 @@ class Game:
 		self.board = Board()
 		self.board.PrintBoard()
 		self.bri = BRI(heuristic)
-		self.time = 1
+		self.time = 1000
 		self.timer = self.time #nanoseconds
 
 	def IsGoalState(self):
@@ -39,14 +39,21 @@ class Game:
 	# though maybe we won't need that actually
 	def Play(self):
 		timeStart = time.time()
+		playedWords = []
 		while not self.IsEndState():
-			anchors = self.board.GetAnchors()
-
-			word, anchor, anchorIndex, direction = self.bri.FormWords(self.hand, self.board)
+			word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
+			playedWords.append(word.GetString())
+			print(playedWords)
 			self.board.PlaceWord(word, anchor, anchorIndex, direction)
 			self.board.PrintBoard()
-
+			for w in word.GetTiles():
+				if w is not anchor.GetData():
+					self.hand.RemoveTileFromHand(w)
+			self.hand.AddTilesToHand(self.bunch.Peel())
+			for t in self.hand.PeekHand():
+				print(t.GetLetter(), end=" ")
 			timeDiff = time.time() - timeStart
+			print("Time:", timeDiff)
 			self.timer = self.time - timeDiff
 
 		#if IsGoalState():

@@ -6,7 +6,7 @@ class Heuristic :
 
 class LongestWordHeuristic(Heuristic) :
     def ScoreWord(self, wordToPlay, hand) :
-        count = len(wordToPlay)
+        count = len(wordToPlay.GetTiles())
 
         return count
 
@@ -82,3 +82,13 @@ class LetterScoringHeuristic(Heuristic) :
             score += self.letterScoreDictionary[letter]
 
         return score
+
+def GetHeuristic(heuristic):
+    if heuristic is "LongestWordHeuristic":
+        return LongestWordHeuristic()
+    elif heuristic is "UncommonLettersHeuristic":
+        return UncommonLettersHeuristic()
+    elif heuristic is "ConsonantVowelHeuristic":
+        return ConsonantVowelHeuristic()
+    else:
+        print("Heuristic could not be found.")

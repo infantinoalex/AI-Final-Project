@@ -27,10 +27,12 @@ class Hand :
         return        
 
     def RemoveTileFromHand(self, tile) :
-        if tile in self.tilesInHand :
-            self.tilesInHand.remove(tile)
-        else :
-            raise ValueError("Could not find specified tile in the list", tile)
+        for handTile in self.tilesInHand :
+            if tile.GetLetter() == handTile.GetLetter() :
+                self.tilesInHand.remove(handTile)
+                return
+            
+        raise ValueError("Could not find specified tile in the list", tile)
 
         return
 
