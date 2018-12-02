@@ -8,7 +8,7 @@ from Board import Board
 from Bunch import Bunch
 from Hand import Hand
 from BRI import BRI
-from Heuristics import LongestWordHeuristic
+from Heuristics import *
 from ReadInFiles import ReadInTilesFromFile
 import Tile
 
@@ -20,6 +20,12 @@ class Game:
 		self.bunch.DealFromBunch(15)
 		self.board = Board()
 		self.board.PrintBoard()
+
+		heuristics = []
+
+		heuristic = Heuristic(heuristics)
+		heuristics.append(LongestWordHeuristic)
+
 		self.bri = BRI(heuristic)
 		self.time = 1000
 		self.timer = self.time #nanoseconds

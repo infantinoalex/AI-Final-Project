@@ -1,16 +1,27 @@
 from ReadInFiles import ReadInTilesFromFile
 
 class Heuristic :
+    def __init__(self, hueristics=[]) :
+        self.heuristcs = hueristics
+
+    def ScoreWord(self, wordToPlay, hand) :
+        score = 0
+        for hueristic in self.heuristcs :
+            score += hueristic.ScoreWord(wordToPlay, hand)
+
+        return score
+
+class NullHeuristic :
     def ScoreWord(self, wordToPlay, hand) :
         return 0
 
-class LongestWordHeuristic(Heuristic) :
+class LongestWordHeuristic() :
     def ScoreWord(self, wordToPlay, hand) :
         count = len(wordToPlay.GetTiles())
 
         return count
 
-class UncommonLettersHeuristic(Heuristic) :
+class UncommonLettersHeuristic() :
     def __init__(self) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
@@ -29,7 +40,7 @@ class UncommonLettersHeuristic(Heuristic) :
                 
         return score
 
-class ConsonantVowelHeuristic(Heuristic) :
+class ConsonantVowelHeuristic() :
     def __init__(self) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
@@ -65,7 +76,7 @@ class ConsonantVowelHeuristic(Heuristic) :
 
         return score
 
-class LetterScoringHeuristic(Heuristic) :
+class LetterScoringHeuristic() :
     def __init__(self) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\Data\processed_letters.txt")
