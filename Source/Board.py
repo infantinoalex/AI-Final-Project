@@ -132,7 +132,6 @@ class Board :
         if expectedAnchorLetter is actualAnchorLetter :
             return True
         else :
-            print(expectedAnchorLetter, "!=", actualAnchorLetter)
             return False
 
     def TileFits(self, tile, xPos, yPos) :
