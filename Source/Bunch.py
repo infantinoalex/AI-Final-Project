@@ -15,7 +15,7 @@ class Bunch :
 
     def __init__(self, tiles = []) :
         if (not tiles) :
-            self.bunch = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
+            self.bunch = ReadInTilesFromFile("..\\Data\\processed_half_letters.txt")
         else :
             self.bunch = tiles
 
