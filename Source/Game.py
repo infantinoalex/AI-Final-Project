@@ -82,7 +82,7 @@ class Game:
 		if self.IsTimeOut():
 			print("Game timed out! Sorry, try harder next time")
 
-		if self.concurrentExceptions > 6 :
+		if self.concurrentExceptions > 5 :
 			print("Too many exceptions thrown")
 
 		print("Words played were:", playedWords)
