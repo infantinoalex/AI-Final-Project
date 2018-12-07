@@ -62,6 +62,7 @@ class Game:
 				self.concurrentExceptions += 1
 
 			self.hand.AddTilesToHand(self.bunch.Peel())
+			print(playedWords)
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
 			print()
@@ -82,6 +83,10 @@ class Game:
 		if self.IsTimeOut():
 			print("Game timed out! Sorry, try harder next time")
 
+		handScore = self.hand.GetScore()
+		bunchScore = self.bunch.ScoreBunch()
+		print("Hand score: ", handScore)
+		print("Bunch score: ", bunchScore)
 		if self.concurrentExceptions > 5 :
 			print("Too many exceptions thrown")
 

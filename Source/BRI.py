@@ -13,7 +13,7 @@ class BRI:
         #Return word, anchor, anchorindex, direction
         #Get words for each anchor, find best word, compare best words sequentially
         anchors = board.GetAnchors()
-        random.shuffle(anchors)
+       # random.shuffle(anchors)
         bestWord = Word()
         bestWord.SetScore(-99999)
         for anchor in anchors:
@@ -47,7 +47,6 @@ class BRI:
         optionsCleaned = dict()
         direction = anchor.GetDirection()
         timeStart = time.time()
-        print(anchor.GetLetter(), anchor.GetDirection())
         for key, strWordList in options.GetDict().items():
             for strWord in strWordList:
                 word = self.MakeItWord(strWord)
@@ -58,6 +57,7 @@ class BRI:
                 for i in indices:
                     if board.IsWordLegal(word, anchor, i, direction):
                         optionsCleaned[word] = (i, direction)
+                       # print(word.GetString(), i, dir)
             timeDiff = time.time() - timeStart
             if (timeDiff > 2):
                 break

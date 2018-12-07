@@ -54,40 +54,38 @@ class Board :
                     self.anchors.append(Anchor(tile, relativeXPos, relativeYPos, 'across'))
                 relativeYPos+= 1
         self.anchors.remove(anchor)
+        self.ValidateAnchors()
 
     def IsWordLegal(self, word, anchor, anchorIndex, playDirection) :
-
+        
         # word must have at least 2 letters
         if not self.BigEnough(word) : 
             return [False, 'word not big enough']
 
         # word must not go off the board
-        elif self.OffBoard(word, anchor, anchorIndex, playDirection) : 
+        if self.OffBoard(word, anchor, anchorIndex, playDirection) : 
             return [False, 'word goes off the board']
 
         # at this point, if the anchor is the default anchor, 
         # we can stop checking and confirm that the word is legal
-        elif anchor.GetLetter() is ' ' :
+        if anchor.GetLetter() is ' ' :
             return [True, 'word with default anchor is legal :)']
 
-        # otherwise we have more checks to make
-        else :
+        # anchor must mach the letter at the anchor index
+        if not self.AnchorIndexCorrect(word, anchor, anchorIndex) :
+            return [False, 'anchorIndex is invalid']
 
-            # anchor must mach the letter at the anchor index
-            if not self.AnchorIndexCorrect(word, anchor, anchorIndex) :
-                return [False, 'anchorIndex is invalid']
-
-            # the word must fit on the board correctly, aka spaces where word will go
-            # must either be blank or equal to the letter that will be placed there
-            elif not self.WordFits(word, anchor, anchorIndex, playDirection) :
-                return [False, 'word does not fit in the board correctly']
+        # the word must fit on the board correctly, aka spaces where word will go
+        # must either be blank or equal to the letter that will be placed there
+        if not self.WordFits(word, anchor, anchorIndex, playDirection) :
+            return [False, 'word does not fit in the board correctly']
         
-            # the word must not create any illegal words, aka the spaces surrounding the
-            # word must be clear or if there are any collisions they must form words
-            elif self.WordCreatesInvalidWord(word, anchor, anchorIndex, playDirection) :
-                return [False, 'word creates an invalid word when placed']
+        # the word must not create any illegal words, aka the spaces surrounding the
+        # word must be clear or if there are any collisions they must form words
+        if self.WordCreatesInvalidWord(word, anchor, anchorIndex, playDirection) :
+            return [False, 'word creates an invalid word when placed']
 
-            else : return [True, 'word is legal :)']
+        return [True, 'word is legal :)']
 
     def PrintBoard(self) :
         for i in range(21) :
@@ -114,7 +112,7 @@ class Board :
             return True
 
     def OutOfBounds(self, bound) :
-        if bound < 0 or bound > self.size : 
+        if bound < 0 or bound > self.size - 1: 
             return True
         else : 
             return False
@@ -142,12 +140,14 @@ class Board :
             return False
 
     def TileFits(self, tile, xPos, yPos) :
-        if self.board[xPos, yPos].GetLetter() == ' ' :
-            return True
-        elif self.board[xPos, yPos].GetLetter() == tile.GetLetter() :
-            return True
-        else :
-            return False 
+        if (not self.OutOfBounds(xPos) and not self.OutOfBounds(yPos)) :
+            if self.board[xPos, yPos].GetLetter() is ' ' :
+                return True
+            elif self.board[xPos, yPos].GetLetter() is tile.GetLetter() :
+                return True
+            else :
+                return False 
+        else : return False
 
     def WordFits(self, word, anchor, anchorIndex, playDirection) :
         relativeXPos = anchor.GetXPos()
@@ -170,7 +170,6 @@ class Board :
 
         # look at the word you played in addition to any direct prefex and suffix tiles
         # if this new word is valid, return true, otherwise return false 
-
         relativeXPos = anchor.GetXPos()
         relativeYPos = anchor.GetYPos()
         if playDirection == 'across' :
@@ -202,7 +201,9 @@ class Board :
             fullWord+= word.GetTiles()
             for i in range(lowerBound + 1, suffixLowerBound) :
                 fullWord.append(self.board[i, relativeYPos])
-            return Words().ExactWordSearch(Word(fullWord))
+            check = Words().ExactWordSearch(Word(fullWord)) 
+            if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
+            return check
         if playDirection == 'down' :
             upperBound = relativeYPos - anchorIndex
             prefixUpperBound = upperBound - 1
@@ -232,7 +233,9 @@ class Board :
             fullWord+= word.GetTiles()
             for i in range(lowerBound + 1, suffixLowerBound) :
                 fullWord.append(self.board[relativeXPos, i])
-            return Words().ExactWordSearch(Word(fullWord))
+            check = Words().ExactWordSearch(Word(fullWord)) 
+            if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
+            return check
 
     def WordCreatesInvalidWord(self, word, anchor, anchorIndex, playDirection) :
         invalidWord = False
@@ -253,3 +256,17 @@ class Board :
                     invalidWord = True
         return invalidWord
 
+
+    def ValidateAnchors(self):
+        badAnchors = []
+        for anchor in self.anchors:
+            xPos = anchor.GetXPos()
+            yPos = anchor.GetYPos()
+            if anchor.GetDirection() == 'across':
+                if self.board[anchor.xPos+1, yPos].GetLetter() != ' ' or self.board[xPos-1, yPos].GetLetter() != ' ':
+                    badAnchors.append(anchor)
+            elif anchor.GetDirection() == 'down':
+                if self.board[xPos, yPos+1].GetLetter() != ' ' or self.board[xPos, yPos-1].GetLetter() != ' ':
+                    badAnchors.append(anchor)
+        for anchor in badAnchors:
+            self.anchors.remove(anchor)
