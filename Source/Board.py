@@ -54,6 +54,7 @@ class Board :
                     self.anchors.append(Anchor(tile, relativeXPos, relativeYPos, 'across'))
                 relativeYPos+= 1
         self.anchors.remove(anchor)
+        self.ValidateAnchors()
 
     def IsWordLegal(self, word, anchor, anchorIndex, playDirection) :
 
@@ -114,7 +115,7 @@ class Board :
             return True
 
     def OutOfBounds(self, bound) :
-        if bound < 0 or bound > self.size : 
+        if bound < 0 or bound > self.size - 1: 
             return True
         else : 
             return False
@@ -253,3 +254,17 @@ class Board :
                     invalidWord = True
         return invalidWord
 
+
+    def ValidateAnchors(self):
+        badAnchors = []
+        for anchor in self.anchors:
+            xPos = anchor.GetXPos()
+            yPos = anchor.GetYPos()
+            if anchor.GetDirection() == 'across':
+                if self.board[anchor.xPos+1, yPos].GetLetter() != ' ' or self.board[xPos-1, yPos].GetLetter() != ' ':
+                    badAnchors.append(anchor)
+            elif anchor.GetDirection() == 'down':
+                if self.board[xPos, yPos+1].GetLetter() != ' ' or self.board[xPos, yPos-1].GetLetter() != ' ':
+                    badAnchors.append(anchor)
+        for anchor in badAnchors:
+            self.anchors.remove(anchor)

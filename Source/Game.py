@@ -50,16 +50,12 @@ class Game:
 		timeStart = time.time()
 		playedWords = []
 		while not self.IsEndState():
-			try :
-				word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
-				playedWords.append(word.GetString())
-				print(playedWords)
-				self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
-				self.board.PrintBoard()
-			except:
-				print("Error trying to get best move")
-
+			word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
+			playedWords.append(word.GetString())
+			self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
+			self.board.PrintBoard()
 			self.hand.AddTilesToHand(self.bunch.Peel())
+			print(playedWords)
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
 			print()
@@ -80,6 +76,10 @@ class Game:
 		if self.IsTimeOut():
 			print("Game timed out! Sorry, try harder next time")
 
+		handScore = self.hand.GetScore()
+		bunchScore = self.bunch.ScoreBunch()
+		print("Hand score: ", handScore)
+		print("Bunch score: ", bunchScore)
 		print("Words played were:", playedWords)
 
 
