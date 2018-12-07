@@ -29,6 +29,7 @@ class Game:
 
 		heuristic = Heuristic(heuristics)
 
+		self.concurrentExceptions = 0
 		self.bri = BRI(heuristic)
 		self.time = 1000
 		self.timer = self.time #nanoseconds
@@ -58,6 +59,7 @@ class Game:
 				self.board.PrintBoard()
 			except:
 				print("Error trying to get best move")
+				self.concurrentExceptions += 1
 
 			self.hand.AddTilesToHand(self.bunch.Peel())
 			for t in self.hand.PeekHand():
@@ -76,9 +78,11 @@ class Game:
 
 		if self.IsGoalState():
 			print("Goal achieved! BRI is the winner!")
+			return
 
-		if self.IsTimeOut():
+		if self.IsTimeOut() or self.concurrentExceptions > 5:
 			print("Game timed out! Sorry, try harder next time")
+			return
 
 		print("Words played were:", playedWords)
 
