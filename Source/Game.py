@@ -50,11 +50,15 @@ class Game:
 		timeStart = time.time()
 		playedWords = []
 		while not self.IsEndState():
-			word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
-			playedWords.append(word.GetString())
-			print(playedWords)
-			self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
-			self.board.PrintBoard()
+			try :
+				word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
+				playedWords.append(word.GetString())
+				print(playedWords)
+				self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
+				self.board.PrintBoard()
+			except:
+				print("Error trying to get best move")
+
 			self.hand.AddTilesToHand(self.bunch.Peel())
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")

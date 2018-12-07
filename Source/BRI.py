@@ -31,7 +31,7 @@ class BRI:
         # check for case no legal move is found
         if bestWord.GetScore() is -99999:
             print("BRI: No valid word options found!")
-            return None
+            raise Exception("BRI: No valid word options found!")
         return bestWord, bestAnchor, bestIndex, bestDirection
 
     def MatchWords(self, hand, anchor, board):
@@ -39,7 +39,7 @@ class BRI:
         anchorWords = anchor.GetPossibleWords()
         handTiles = hand.PeekHand()
         anchorTile = anchor.GetTile()
-        if anchorTile.GetLetter is " ":
+        if anchorTile.GetLetter() is " ":
             handTiles.append(anchorTile)
         tiles = handTiles
         totalHand = Word(tiles)
