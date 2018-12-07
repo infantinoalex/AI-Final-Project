@@ -45,8 +45,9 @@ class BRI:
         totalHand = Word(tiles)
         options = anchorWords.WordSearch(totalHand)
         optionsCleaned = dict()
-        dir = anchor.GetDirection()
+        direction = anchor.GetDirection()
         timeStart = time.time()
+        print(anchor.GetLetter(), anchor.GetDirection())
         for key, strWordList in options.GetDict().items():
             for strWord in strWordList:
                 word = self.MakeItWord(strWord)
@@ -55,10 +56,10 @@ class BRI:
                 else:
                     indices = [i for i, a in enumerate(word.GetString()) if a == anchor.GetLetter() ]
                 for i in indices:
-                    if board.IsWordLegal(word, anchor, i, dir):
-                        optionsCleaned[word] = (i, dir)
+                    if board.IsWordLegal(word, anchor, i, direction):
+                        optionsCleaned[word] = (i, direction)
             timeDiff = time.time() - timeStart
-            if (timeDiff > 5):
+            if (timeDiff > 2):
                 break
         return optionsCleaned
 

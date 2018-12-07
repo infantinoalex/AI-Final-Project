@@ -34,22 +34,24 @@ class Board :
         boardPositionLetter = self.board[xPos, yPos].GetLetter()
         if not boardPositionLetter == tileLetter :
             hand.RemoveTileFromHand(tile)
-
         self.board[xPos, yPos] = tile
-        self.anchors.append(Anchor(tile, xPos, yPos, playDirection))
 
     def PlaceWord(self, word, anchor, hand, anchorIndex, playDirection) :
         relativeXPos = anchor.GetXPos()
         relativeYPos = anchor.GetYPos()
         if playDirection == 'across' :
             relativeXPos-= anchorIndex
-            for tile in word.GetTiles() :
+            for i, tile in enumerate(word.GetTiles()) :
                 self.PlaceTile(tile, hand, relativeXPos, relativeYPos, 'down')                
+                if i is not anchorIndex :
+                    self.anchors.append(Anchor(tile, relativeXPos, relativeYPos, 'down'))
                 relativeXPos+= 1
         if playDirection == 'down' :
             relativeYPos-= anchorIndex
-            for tile in word.GetTiles() :
+            for i, tile in enumerate(word.GetTiles()) :
                 self.PlaceTile(tile, hand, relativeXPos, relativeYPos, 'across')
+                if i is not anchorIndex :
+                    self.anchors.append(Anchor(tile, relativeXPos, relativeYPos, 'across'))
                 relativeYPos+= 1
         self.anchors.remove(anchor)
 

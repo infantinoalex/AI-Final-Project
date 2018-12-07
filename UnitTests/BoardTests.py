@@ -13,7 +13,6 @@ class TestBoardClass(unittest.TestCase) :
 
     '''
     These tests verify that the PlaceWord function works
-    '''
 
     def test_PlaceWord_DefaultAnchorAcross_WordPlacedCorrectly(self) :
 
@@ -124,10 +123,10 @@ class TestBoardClass(unittest.TestCase) :
         self.assertEqual(board.GetBoard()[10, 14].GetLetter(), i.GetLetter())
         self.assertEqual(board.GetBoard()[10, 15].GetLetter(), n.GetLetter())
         self.assertEqual(board.GetBoard()[10, 16].GetLetter(), g.GetLetter())
+    '''
 
     '''
     These tests verify that the IsWordLegal happy path works
-    '''
 
     def test_IsWordLegal_LegalWordDefaultAnchorAcross_ReturnsTrue(self) :
 
@@ -208,11 +207,11 @@ class TestBoardClass(unittest.TestCase) :
 
         # Assert 
         self.assertTrue(results[0])
+    '''
     
     '''
     These tests verify that the IsWordLegal function returns false 
     when a word is not big enough
-    '''
 
     def test_IsWordLegal_0CharacterWordDefaultAnchor_ReturnsFalseTooSmall(self) :
 
@@ -287,11 +286,11 @@ class TestBoardClass(unittest.TestCase) :
         # Assert 
         self.assertFalse(results[0])
         self.assertTrue(results[1], 'word not big enough')
+    '''
 
     '''
     These tests verify that the IsWordLegal function returns false 
     when a word goes off the board
-    '''
 
     def test_IsWordLegal_OffBoardWordDefaultAnchorAcross_ReturnsFalseOffBoard(self) :
 
@@ -366,11 +365,11 @@ class TestBoardClass(unittest.TestCase) :
         # Assert 
         self.assertFalse(results[0])
         self.assertTrue(results[1], 'word goes off the board')
+    '''
 
     '''
     These tests verify that the IsWordLegal function returns false 
     when the anchorIndex is not correct
-    '''
 
     def test_IsWordLegal_OutOfRangeAnchorIndexWordOneLetterAnchor_ReturnsFalseBadAnchorIndex(self) :
 
@@ -415,13 +414,13 @@ class TestBoardClass(unittest.TestCase) :
         # Assert 
         self.assertFalse(results[0])
         self.assertTrue(results[1], 'anchorIndex is invalid')
+    '''
 
     '''
     These tests verify that the IsWordLegal function returns false
     when there is not space on the board for the word (aka it directly 
     overlays a tile which does not allow the word to be played)
     and true otherwise
-    '''
 
     def test_IsWordLegal_LegalWordWithOverlapOneLetterAnchorAcross_ReturnsTrue(self) :
 
@@ -554,12 +553,12 @@ class TestBoardClass(unittest.TestCase) :
         #board.PrintBoard()
         self.assertFalse(results[0])
         self.assertEqual(results[1], 'word does not fit in the board correctly')
+    '''
     
     '''
     These tests verify that the IsWordLegal function returns false when
     the word that gets played creates an invalid word from the tiles
     surrounding the area where the word is played and true otherwise
-    '''
 
     def test_IsWordLegal_LegalWordAddPrefixOneLetterAnchorAcross_ReturnsTrue(self) :
 
@@ -1125,8 +1124,48 @@ class TestBoardClass(unittest.TestCase) :
         #board.PrintBoard()
         self.assertFalse(results[0])
         self.assertEqual(results[1], 'word creates an invalid word when placed')
+    '''
     
-    
+
+    '''
+    These tests verify that the IsWordLegal function returns false 
+    when trying to play a word on top of another word
+    '''
+    def test_IsWordLegal_IllegalWordBadCollisionsOneLetterAnchorDown_ReturnsFalse(self) :
+
+        # Arrange
+        board = Board()
+        a = Tile('a', 1, 0.07633656680151722, 7)
+        b = Tile('b', 3, 0.019012035570253775, 59)
+        e = Tile('e', 1, 0.11533383402651991, 2)  
+        g = Tile('g', 2, 0.02747732680328438, 47)
+        i = Tile('i', 1, 0.0885545324304026, 5)
+        l = Tile('l', 1, 0.05340397735520395, 23)
+        n = Tile('n', 1, 0.06738530865210449, 13)
+        o = Tile('o', 1, 0.0653196336945477, 19)
+        q = Tile('q', 10, 0.0016308292362745903, 101)
+        r = Tile('r', 1, 0.07098146383333229, 11)
+        s = Tile('s', 1, 0.09480520300163461, 3)
+        t = Tile('t', 1, 0.06566549066880407, 17)
+        u = Tile('u', 1, 0.03288670659589642, 37)
+        w = Tile('w', 4, 0.007837320996926416, 79)
+        x = Tile('x', 8, 0.0030047902453186237, 89)
+        y = Tile('y', 4, 0.016327226138708843, 61)
+
+        hand = Hand("test", [t, a, x, i, w, a, y, s, a, g, i, n, n, e, r, b, e, l, i, q, u, o, r])
+        taxiways = Word([t, a, x, i, w, a, y, s])
+        aginner = Word([a, g, i, n, n, e, r])
+        beliquor = Word([b, e, l, i, q, u, o, r])
+
+        # Act
+        board.PlaceWord(taxiways, board.GetAnchors()[0], hand, 3, 'down')
+        board.PlaceWord(aginner, board.GetAnchors()[3], hand, 2, 'across')
+        results = board.IsWordLegal(beliquor, board.GetAnchors()[9], 3, 'down')
+        
+        # Assert 
+        #board.PrintBoard()
+        self.assertFalse(results[0])
+        self.assertEqual(results[1], 'word does not fit in the board correctly')
 
 
     '''
