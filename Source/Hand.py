@@ -24,7 +24,14 @@ class Hand :
 
     def AddTilesToHand(self, tiles) :
         self.tilesInHand.extend(tiles)
-        return        
+        return  
+
+    def GetScore(self) :
+        score = 0
+        for tile in self.tilesInHand :  
+            score += tile.GetScore()
+
+        return score    
 
     def RemoveTileFromHand(self, tile) :
         for handTile in self.tilesInHand :

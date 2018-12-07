@@ -23,9 +23,9 @@ class Game:
 
 		heuristics = []
 		heuristics.append(LongestWordHeuristic())
-		#heuristics.append(ConsonantVowelHeuristic())
-		#heuristics.append(LetterScoringHeuristic())
-		#heuristics.append(UncommonLettersHeuristic())
+		heuristics.append(ConsonantVowelHeuristic())
+		heuristics.append(LetterScoringHeuristic())
+		heuristics.append(UncommonLettersHeuristic())
 
 		heuristic = Heuristic(heuristics)
 
@@ -59,6 +59,13 @@ class Game:
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
 			print()
+			handScore = self.hand.GetScore()
+			bunchScore = self.bunch.ScoreBunch()
+			print("Hand Score: ", handScore)
+			print("Bunch Score: ", bunchScore)
+			bunchList = self.bunch.GetBunch()
+			bunchLength = len(bunchList)
+			print("Items left in bunch: ", bunchLength)
 			timeDiff = time.time() - timeStart
 			print("Time:", timeDiff)
 			self.timer = self.time - timeDiff

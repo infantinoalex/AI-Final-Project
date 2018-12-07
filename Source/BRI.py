@@ -2,6 +2,8 @@ from Word import Word
 from Words import Words
 from Board import Board
 from Tile import Tile
+import random
+import time
 
 class BRI:
     def __init__(self, heuristic):
@@ -11,8 +13,9 @@ class BRI:
         #Return word, anchor, anchorindex, direction
         #Get words for each anchor, find best word, compare best words sequentially
         anchors = board.GetAnchors()
+        random.shuffle(anchors)
         bestWord = Word()
-        bestWord.SetScore = 0
+        bestWord.SetScore(-99999)
         for anchor in anchors:
             # get list of possible words for each anchor
             # match words to hand
@@ -26,7 +29,7 @@ class BRI:
                     bestIndex = words[word][0]
                     bestDirection = words[word][1]
         # check for case no legal move is found
-        if bestWord.GetScore() is 0:
+        if bestWord.GetScore() is -99999:
             print("BRI: No valid word options found!")
             return None
         return bestWord, bestAnchor, bestIndex, bestDirection
@@ -43,6 +46,7 @@ class BRI:
         options = anchorWords.WordSearch(totalHand)
         optionsCleaned = dict()
         dir = anchor.GetDirection()
+        timeStart = time.time()
         for key, strWordList in options.GetDict().items():
             for strWord in strWordList:
                 word = self.MakeItWord(strWord)
@@ -53,6 +57,9 @@ class BRI:
                 for i in indices:
                     if board.IsWordLegal(word, anchor, i, dir):
                         optionsCleaned[word] = (i, dir)
+            timeDiff = time.time() - timeStart
+            if (timeDiff > 5):
+                break
         return optionsCleaned
 
     def MakeItWord(self, word):
