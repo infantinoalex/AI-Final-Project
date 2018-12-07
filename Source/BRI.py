@@ -15,7 +15,7 @@ class BRI:
         anchors = board.GetAnchors()
         random.shuffle(anchors)
         bestWord = Word()
-        bestWord.SetScore = 0
+        bestWord.SetScore(-99999)
         for anchor in anchors:
             # get list of possible words for each anchor
             # match words to hand
@@ -29,7 +29,7 @@ class BRI:
                     bestIndex = words[word][0]
                     bestDirection = words[word][1]
         # check for case no legal move is found
-        if bestWord.GetScore() is 0:
+        if bestWord.GetScore() is -99999:
             print("BRI: No valid word options found!")
             return None
         return bestWord, bestAnchor, bestIndex, bestDirection
