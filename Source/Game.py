@@ -43,7 +43,7 @@ class Game:
 		return self.timer <= 0
 
 	def IsEndState(self):
-		return self.IsGoalState() or self.IsTimeOut()
+		return self.IsGoalState() or self.IsTimeOut()  or self.concurrentExceptions > 5
 
 	# also should consider timer for BRI i.e. cap time spent calculating a move
 	# though maybe we won't need that actually
@@ -62,6 +62,7 @@ class Game:
 				self.concurrentExceptions += 1
 
 			self.hand.AddTilesToHand(self.bunch.Peel())
+			print(playedWords)
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
 			print()
@@ -78,11 +79,16 @@ class Game:
 
 		if self.IsGoalState():
 			print("Goal achieved! BRI is the winner!")
-			return
 
-		if self.IsTimeOut() or self.concurrentExceptions > 5:
+		if self.IsTimeOut():
 			print("Game timed out! Sorry, try harder next time")
-			return
+
+		handScore = self.hand.GetScore()
+		bunchScore = self.bunch.ScoreBunch()
+		print("Hand score: ", handScore)
+		print("Bunch score: ", bunchScore)
+		if self.concurrentExceptions > 6 :
+			print("Too many exceptions thrown")
 
 		print("Words played were:", playedWords)
 
