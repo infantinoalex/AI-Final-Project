@@ -9,7 +9,7 @@ class Heuristic :
         score = 0
         for hueristicToCheck in self.heuristcs :
             result = hueristicToCheck.ScoreWord(wordToPlay, hand)
-            result *= hueristicToCheck.Scale()
+            #result *= hueristicToCheck.Scale()
             score += result
 
         return score

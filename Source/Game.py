@@ -59,16 +59,16 @@ class Game:
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
 			print()
+			handScore = self.hand.GetScore()
+			bunchScore = self.bunch.ScoreBunch()
+			print("Hand Score: ", handScore)
+			print("Bunch Score: ", bunchScore)
 			bunchList = self.bunch.GetBunch()
 			bunchLength = len(bunchList)
 			print("Items left in bunch: ", bunchLength)
 			timeDiff = time.time() - timeStart
 			print("Time:", timeDiff)
 			self.timer = self.time - timeDiff
-			handScore = self.hand.GetScore()
-			bunchScore = self.bunch.ScoreBunch()
-			print("Hand Score: ", handScore)
-			print("Bunch Score: ", bunchScore)
 
 		if self.IsGoalState():
 			print("Goal achieved! BRI is the winner!")
