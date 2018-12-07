@@ -23,9 +23,9 @@ class Game:
 
 		heuristics = []
 		heuristics.append(LongestWordHeuristic())
-		heuristics.append(ConsonantVowelHeuristic())
-		heuristics.append(LetterScoringHeuristic())
-		heuristics.append(UncommonLettersHeuristic())
+		#heuristics.append(ConsonantVowelHeuristic())
+		#heuristics.append(LetterScoringHeuristic())
+		#heuristics.append(UncommonLettersHeuristic())
 
 		heuristic = Heuristic(heuristics)
 

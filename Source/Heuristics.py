@@ -1,4 +1,5 @@
 from ReadInFiles import ReadInTilesFromFile
+from math import e
 
 class Heuristic :
     def __init__(self, hueristics=[]) :
@@ -45,9 +46,8 @@ class UncommonLettersHeuristic :
     def ScoreWord(self, wordToPlay, hand) :
         score = 0
         for tile in wordToPlay.GetTiles() :
-            score = self.letterScoreDictionary[tile.GetLetter()]
-            if score > 5 :
-                score += 10
+            letterScore = self.letterScoreDictionary[tile.GetLetter()]
+            score += e ** (letterScore / 3)
                 
         return score
 
