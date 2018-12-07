@@ -9,7 +9,7 @@ class Heuristic :
         score = 0
         for hueristicToCheck in self.heuristcs :
             result = hueristicToCheck.ScoreWord(wordToPlay, hand)
-            #result *= hueristicToCheck.Scale()
+            result *= hueristicToCheck.Scale()
             score += result
 
         return score
@@ -31,7 +31,7 @@ class LongestWordHeuristic :
         return count
 
     def Scale(self) :
-        return 50
+        return 4
 
 class UncommonLettersHeuristic :
     def __init__(self) :
@@ -52,7 +52,7 @@ class UncommonLettersHeuristic :
         return score
 
     def Scale(self) :
-        return 25
+        return 3
 
 class ConsonantVowelHeuristic :
     def __init__(self) :
@@ -89,7 +89,7 @@ class ConsonantVowelHeuristic :
         return (-(ratio - 1.3)) * (ratio - 2.5) 
 
     def Scale(self) :
-        return 10
+        return 2
 
 class LetterScoringHeuristic :
     def __init__(self) :
@@ -110,4 +110,4 @@ class LetterScoringHeuristic :
         return score
 
     def Scale(self) :
-        return 5
+        return 1
