@@ -29,6 +29,7 @@ class Game:
 
 		heuristic = Heuristic(heuristics)
 
+		self.concurrentExceptions = 0
 		self.bri = BRI(heuristic)
 		self.time = 1000
 		self.timer = self.time #nanoseconds
@@ -42,7 +43,7 @@ class Game:
 		return self.timer <= 0
 
 	def IsEndState(self):
-		return self.IsGoalState() or self.IsTimeOut()
+		return self.IsGoalState() or self.IsTimeOut()  or self.concurrentExceptions > 5
 
 	# also should consider timer for BRI i.e. cap time spent calculating a move
 	# though maybe we won't need that actually
@@ -50,10 +51,16 @@ class Game:
 		timeStart = time.time()
 		playedWords = []
 		while not self.IsEndState():
-			word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
-			playedWords.append(word.GetString())
-			self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
-			self.board.PrintBoard()
+			try :
+				word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
+				playedWords.append(word.GetString())
+				print(playedWords)
+				self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
+				self.board.PrintBoard()
+			except:
+				print("Error trying to get best move")
+				self.concurrentExceptions += 1
+
 			self.hand.AddTilesToHand(self.bunch.Peel())
 			print(playedWords)
 			for t in self.hand.PeekHand():
@@ -80,6 +87,9 @@ class Game:
 		bunchScore = self.bunch.ScoreBunch()
 		print("Hand score: ", handScore)
 		print("Bunch score: ", bunchScore)
+		if self.concurrentExceptions > 6 :
+			print("Too many exceptions thrown")
+
 		print("Words played were:", playedWords)
 
 
