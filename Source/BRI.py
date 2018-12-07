@@ -47,7 +47,6 @@ class BRI:
         optionsCleaned = dict()
         direction = anchor.GetDirection()
         timeStart = time.time()
-        print(anchor.GetLetter(), anchor.GetDirection())
         for key, strWordList in options.GetDict().items():
             for strWord in strWordList:
                 word = self.MakeItWord(strWord)

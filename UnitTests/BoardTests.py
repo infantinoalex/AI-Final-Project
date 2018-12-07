@@ -1130,7 +1130,6 @@ class TestBoardClass(unittest.TestCase) :
     '''
     These tests verify that the IsWordLegal function returns false 
     when trying to play a word on top of another word
-    '''
     def test_IsWordLegal_IllegalWordBadCollisionsOneLetterAnchorDown_ReturnsFalse(self) :
 
         # Arrange
@@ -1166,6 +1165,32 @@ class TestBoardClass(unittest.TestCase) :
         #board.PrintBoard()
         self.assertFalse(results[0])
         self.assertEqual(results[1], 'word does not fit in the board correctly')
+    '''
+
+    def test_IsWordLegal_IllegalWordBadCollisionsOneLetterAnchorDown_ReturnsFalse(self) :
+
+        # Arrange
+        board = Board()
+        t = Tile('t', -1, -1.0, -1)
+        e = Tile('e', -1, -1.0, -1)
+        s = Tile('s', -1, -1.0, -1)
+        i = Tile('i', -1, -1.0, -1)
+        n = Tile('n', -1, -1.0, -1)
+        g = Tile('g', -1, -1.0, -1)
+
+        hand = Hand("test", [t, e, s, t, i, n, g, t, e, s, t, i, n, g, s, i, t])
+        testing = Word([t, e, s, t, i, n, g])
+        sit = Word([s, i, t])
+        
+        # Act
+        board.PlaceWord(testing, board.GetAnchors()[0], hand, 0, 'down')
+        board.PlaceWord(sit, board.GetAnchors()[3], hand, 1, 'across')
+        results = board.IsWordLegal(testing, board.GetAnchors()[6], 3, 'down')
+        
+        # Assert 
+        #board.PrintBoard()
+        self.assertFalse(results[0])
+        self.assertEqual(results[1], 'word creates an invalid word when placed')
 
 
     '''
