@@ -7,19 +7,30 @@ class Heuristic :
     def ScoreWord(self, wordToPlay, hand) :
         score = 0
         for hueristicToCheck in self.heuristcs :
-            score += hueristicToCheck.ScoreWord(wordToPlay, hand)
+            result = hueristicToCheck.ScoreWord(wordToPlay, hand)
+            #result *= hueristicToCheck.Scale()
+            score += result
 
         return score
+
+    def Scale(self) :
+        return 1
 
 class NullHeuristic :
     def ScoreWord(self, wordToPlay, hand) :
         return 0
+
+    def Scale(self) :
+        return 1
 
 class LongestWordHeuristic :
     def ScoreWord(self, wordToPlay, hand) :
         count = len(wordToPlay.GetTiles())
 
         return count
+
+    def Scale(self) :
+        return 50
 
 class UncommonLettersHeuristic :
     def __init__(self) :
@@ -40,13 +51,15 @@ class UncommonLettersHeuristic :
                 
         return score
 
+    def Scale(self) :
+        return 25
+
 class ConsonantVowelHeuristic :
     def __init__(self) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
         for tile in tiles :
             letter = tile.GetLetter()
-            score = tile.GetScore()
             if letter not in self.letterScoreDictionary  :
                 self.letterScoreDictionary[letter] = tile
 
@@ -60,7 +73,6 @@ class ConsonantVowelHeuristic :
         for tile in handTiles :
             handTilesLetters.append(tile.GetLetter())
 
-        score = 0
         for tile in wordToPlay.GetTiles() :
             foundTile = self.letterScoreDictionary[tile.GetLetter()]
 
@@ -74,13 +86,10 @@ class ConsonantVowelHeuristic :
 
         ratio = float(numberOfConsonants) / float(numberOfVowels)
 
-        if ratio <= 2.5 and ratio >= 1.3 :
-            score += 25
-        
-        else :
-            ratio += 5
+        return (-(ratio - 1.3)) * (ratio - 2.5) 
 
-        return score
+    def Scale(self) :
+        return 10
 
 class LetterScoringHeuristic :
     def __init__(self) :
@@ -99,3 +108,6 @@ class LetterScoringHeuristic :
             score += self.letterScoreDictionary[tile.GetLetter()]
 
         return score
+
+    def Scale(self) :
+        return 5
