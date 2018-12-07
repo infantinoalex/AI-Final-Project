@@ -5,6 +5,7 @@ sys.path.append(unitTestPath)
 
 import unittest
 from Board import Board 
+from Hand import Hand
 from Tile import Tile
 from Word import Word
 
@@ -25,10 +26,11 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g])
         word = Word([t, e, s, t, i, n, g])
 
         # Act
-        board.PlaceWord(word, board.GetAnchors()[0], 3, 'across')
+        board.PlaceWord(word, board.GetAnchors()[0], hand, 3, 'across')
 
         # Assert 
         # board.PrintBoard()
@@ -51,10 +53,11 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g])
         word = Word([t, e, s, t, i, n, g])
 
         # Act
-        board.PlaceWord(word, board.GetAnchors()[0], 3, 'down')
+        board.PlaceWord(word, board.GetAnchors()[0], hand, 3, 'down')
 
         # Assert 
         # board.PrintBoard()
@@ -77,11 +80,12 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g, t, e, s, t, i, n, g])
         word = Word([t, e, s, t, i, n, g])
 
         # Act
-        board.PlaceWord(word, board.GetAnchors()[0], 3, 'down')
-        board.PlaceWord(word, board.GetAnchors()[3], 0, 'across')
+        board.PlaceWord(word, board.GetAnchors()[0], hand, 3, 'down')
+        board.PlaceWord(word, board.GetAnchors()[3], hand, 0, 'across')
 
         # Assert 
         # board.PrintBoard()
@@ -104,11 +108,12 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g, t, e, s, t, i, n, g])
         word = Word([t, e, s, t, i, n, g])
 
         # Act
-        board.PlaceWord(word, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(word, board.GetAnchors()[3], 0, 'down')
+        board.PlaceWord(word, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(word, board.GetAnchors()[3], hand, 0, 'down')
 
         # Assert 
         # board.PrintBoard()
@@ -173,10 +178,11 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g, t, e, s, t, i, n, g])
         word = Word([t, e, s, t, i, n, g])
 
         # Act
-        board.PlaceWord(word, board.GetAnchors()[0], 3, 'down')
+        board.PlaceWord(word, board.GetAnchors()[0], hand, 3, 'down')
         results = board.IsWordLegal(word, board.GetAnchors()[3], 0, 'across')
 
         # Assert 
@@ -193,10 +199,11 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g, t, e, s, t, i, n, g])
         word = Word([t, e, s, t, i, n, g])
 
         # Act
-        board.PlaceWord(word, board.GetAnchors()[0], 3, 'across')
+        board.PlaceWord(word, board.GetAnchors()[0], hand, 3, 'across')
         results = board.IsWordLegal(word, board.GetAnchors()[3], 0, 'down')
 
         # Assert 
@@ -220,17 +227,6 @@ class TestBoardClass(unittest.TestCase) :
         self.assertFalse(results[0])
         self.assertTrue(results[1], 'word not big enough')
 
-        # Arrange
-        board = Board()
-        word = Word()
-
-        # Act
-        results = board.IsWordLegal(word, board.GetAnchors()[0], 0, 'down')
-
-        # Assert 
-        self.assertFalse(results[0])
-        self.assertTrue(results[1], 'word not big enough')
-
     def test_IsWordLegal_0CharacterWordOneLetterAnchor_ReturnsFalseTooSmall(self) :
 
         # Arrange
@@ -242,11 +238,12 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g])
         word1 = Word([t, e, s, t, i, n, g])
         word2 = Word()
 
         # Act
-        board.PlaceWord(word1, board.GetAnchors()[0], 3, 'down')
+        board.PlaceWord(word1, board.GetAnchors()[0], hand, 3, 'down')
         results = board.IsWordLegal(word2, board.GetAnchors()[3], 0, 'across')
 
         # Assert 
@@ -279,33 +276,13 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g])
         word1 = Word([t, e, s, t, i, n, g])
         word2 = Word([t])
 
         # Act
-        board.PlaceWord(word1, board.GetAnchors()[0], 3, 'down')
+        board.PlaceWord(word1, board.GetAnchors()[0], hand, 3, 'down')
         results = board.IsWordLegal(word2, board.GetAnchors()[3], 0, 'across')
-
-        # Assert 
-        self.assertFalse(results[0])
-        self.assertTrue(results[1], 'word not big enough')
-
-
-        # Arrange
-        board = Board()
-        t = Tile('t', -1, -1.0, -1)
-        e = Tile('e', -1, -1.0, -1)
-        s = Tile('s', -1, -1.0, -1)
-        i = Tile('i', -1, -1.0, -1)
-        n = Tile('n', -1, -1.0, -1)
-        g = Tile('g', -1, -1.0, -1)
-
-        word1 = Word([t, e, s, t, i, n, g])
-        word2 = Word([t])
-
-        # Act
-        board.PlaceWord(word1, board.GetAnchors()[0], 3, 'across')
-        results = board.IsWordLegal(word2, board.GetAnchors()[3], 0, 'down')
 
         # Assert 
         self.assertFalse(results[0])
@@ -321,7 +298,7 @@ class TestBoardClass(unittest.TestCase) :
         # Arrange
         board = Board()
         t = Tile('t', -1, -1.0, -1)
-        word = Word([t, t, t, t, t, t, t, t, t, t, t, t, t, t, t])
+        word = Word([t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t])
 
         # Act
         results = board.IsWordLegal(word, board.GetAnchors()[0], 0, 'across')
@@ -335,7 +312,7 @@ class TestBoardClass(unittest.TestCase) :
         # Arrange
         board = Board()
         t = Tile('t', -1, -1.0, -1)
-        word = Word([t, t, t, t, t, t, t, t, t, t, t, t, t, t, t])
+        word = Word([t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t])
 
         # Act
         results = board.IsWordLegal(word, board.GetAnchors()[0], 0, 'down')
@@ -355,11 +332,12 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t])
         word1 = Word([t, e, s, t, i, n, g])
         word2 = Word([t, t, t, t, t, t, t, t, t, t, t, t, t, t, t])
 
         # Act
-        board.PlaceWord(word1, board.GetAnchors()[0], 3, 'down')
+        board.PlaceWord(word1, board.GetAnchors()[0], hand, 3, 'down')
         results = board.IsWordLegal(word2, board.GetAnchors()[3], 0, 'across')
 
         # Assert 
@@ -377,11 +355,12 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g, t, t, t, t, t, t, t, t, t, t, t, t, t, t, t])
         word1 = Word([t, e, s, t, i, n, g])
         word2 = Word([t, t, t, t, t, t, t, t, t, t, t, t, t, t, t])
 
         # Act
-        board.PlaceWord(word1, board.GetAnchors()[0], 3, 'across')
+        board.PlaceWord(word1, board.GetAnchors()[0], hand, 3, 'across')
         results = board.IsWordLegal(word2, board.GetAnchors()[3], 0, 'down')
 
         # Assert 
@@ -404,10 +383,11 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g, t, e, s, t, i, n, g])
         word = Word([t, e, s, t, i, n, g])
 
         # Act
-        board.PlaceWord(word, board.GetAnchors()[0], 3, 'down')
+        board.PlaceWord(word, board.GetAnchors()[0], hand, 3, 'down')
         results = board.IsWordLegal(word, board.GetAnchors()[3], 12, 'across')
 
         # Assert 
@@ -425,10 +405,11 @@ class TestBoardClass(unittest.TestCase) :
         n = Tile('n', -1, -1.0, -1)
         g = Tile('g', -1, -1.0, -1)
 
+        hand = Hand("test", [t, e, s, t, i, n, g, t, e, s, t, i, n, g])
         word = Word([t, e, s, t, i, n, g])
 
         # Act
-        board.PlaceWord(word, board.GetAnchors()[0], 3, 'down')
+        board.PlaceWord(word, board.GetAnchors()[0], hand, 3, 'down')
         results = board.IsWordLegal(word, board.GetAnchors()[3], 2, 'across')
 
         # Assert 
@@ -459,15 +440,16 @@ class TestBoardClass(unittest.TestCase) :
         w = Tile('w', 4, 0.007837320996926416, 79)
         y = Tile('y', 4, 0.016327226138708843, 61)
 
+        hand = Hand("test", [w, e, e, k, e, n, d, w, a, i, v, e, r, e, g, g, y, c, r, y, i, n, g])
         weekend = Word([w, e, e, k, e, n, d])
         waiver = Word([w, a, i, v, e, r])
         eggy = Word([e, g, g, y])
         crying = Word([c, r, y, i, n, g])
 
         # Act
-        board.PlaceWord(weekend, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(waiver, board.GetAnchors()[0], 0, 'down')
-        board.PlaceWord(eggy, board.GetAnchors()[1], 0, 'down')
+        board.PlaceWord(weekend, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(waiver, board.GetAnchors()[0], hand, 0, 'down')
+        board.PlaceWord(eggy, board.GetAnchors()[1], hand, 0, 'down')
         results = board.IsWordLegal(crying, board.GetAnchors()[7], 3, 'across')
 
         # Assert 
@@ -490,15 +472,17 @@ class TestBoardClass(unittest.TestCase) :
         v = Tile('v', 4, 0.009737640977740191, 71)
         w = Tile('w', 4, 0.007837320996926416, 79)
         y = Tile('y', 4, 0.016327226138708843, 61)
+
+        hand = Hand("test", [w, e, e, k, e, n, d, w, a, i, v, e, r, e, g, g, y, c, r, y, i, n, g])
         weekend = Word([w, e, e, k, e, n, d])
         waiver = Word([w, a, i, v, e, r])
         eggy = Word([e, g, g, y])
         crying = Word([c, r, y, i, n, g])
 
         # Act
-        board.PlaceWord(weekend, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(waiver, board.GetAnchors()[0], 0, 'down')
-        board.PlaceWord(crying, board.GetAnchors()[8], 3, 'across')
+        board.PlaceWord(weekend, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(waiver, board.GetAnchors()[0], hand, 0, 'down')
+        board.PlaceWord(crying, board.GetAnchors()[8], hand, 3, 'across')
         results = board.IsWordLegal(eggy, board.GetAnchors()[1], 0, 'down')
 
         # Assert 
@@ -520,15 +504,17 @@ class TestBoardClass(unittest.TestCase) :
         v = Tile('v', 4, 0.009737640977740191, 71)
         w = Tile('w', 4, 0.007837320996926416, 79)
         y = Tile('y', 4, 0.016327226138708843, 61)
+
+        hand = Hand("test", [w, e, e, k, e, n, d, w, a, i, v, e, r, e, g, g, y, r, i, n, k])
         weekend = Word([w, e, e, k, e, n, d])
         waiver = Word([w, a, i, v, e, r])
         eggy = Word([e, g, g, y])
         rink = Word([r, i, n, k])
 
         # Act
-        board.PlaceWord(weekend, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(waiver, board.GetAnchors()[0], 0, 'down')
-        board.PlaceWord(eggy, board.GetAnchors()[1], 0, 'down')
+        board.PlaceWord(weekend, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(waiver, board.GetAnchors()[0], hand, 0, 'down')
+        board.PlaceWord(eggy, board.GetAnchors()[1], hand, 0, 'down')
         results = board.IsWordLegal(rink, board.GetAnchors()[7], 1, 'across')
 
         # Assert 
@@ -551,15 +537,17 @@ class TestBoardClass(unittest.TestCase) :
         v = Tile('v', 4, 0.009737640977740191, 71)
         w = Tile('w', 4, 0.007837320996926416, 79)
         y = Tile('y', 4, 0.016327226138708843, 61)
+
+        hand = Hand("test", [w, e, e, k, e, n, d, w, a, i, v, e, r, e, g, g, y, r, i, n, k])
         weekend = Word([w, e, e, k, e, n, d])
         waiver = Word([w, a, i, v, e, r])
         eggy = Word([e, g, g, y])
         rink = Word([r, i, n, k])
 
         # Act
-        board.PlaceWord(weekend, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(waiver, board.GetAnchors()[0], 0, 'down')
-        board.PlaceWord(rink, board.GetAnchors()[8], 1, 'across')
+        board.PlaceWord(weekend, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(waiver, board.GetAnchors()[0], hand, 0, 'down')
+        board.PlaceWord(rink, board.GetAnchors()[8], hand, 1, 'across')
         results = board.IsWordLegal(eggy, board.GetAnchors()[1], 0, 'down')
 
         # Assert 
@@ -588,15 +576,16 @@ class TestBoardClass(unittest.TestCase) :
         r = Tile('r', 1, 0.07098146383333229, 11)
         s = Tile('s', 1, 0.09480520300163461, 3)
 
+        hand = Hand("test", [l, i, n, k, e, r, s, b, e ,l, i, e, s, n, o, s, e, r, i, n, g])
         linkers = Word([l, i, n, k, e, r, s])
         belies = Word([b, e, l, i, e, s])
         nose = Word([n, o, s, e])
         ring = Word([r, i, n, g])     
 
         # Act
-        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(belies, board.GetAnchors()[1], 3, 'down')
-        board.PlaceWord(nose, board.GetAnchors()[3], 3, 'down')
+        board.PlaceWord(linkers, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(belies, board.GetAnchors()[1], hand, 3, 'down')
+        board.PlaceWord(nose, board.GetAnchors()[3], hand, 3, 'down')
         results = board.IsWordLegal(ring, board.GetAnchors()[11], 2, 'across')
         
         # Assert 
@@ -621,15 +610,16 @@ class TestBoardClass(unittest.TestCase) :
         s = Tile('s', 1, 0.09480520300163461, 3)
         t = Tile('t', 1, 0.06566549066880407, 17)
 
+        hand = Hand("test", [l, i, n, k, e, r, s, f, a, s, t, e, s, t, n, o, s, e, r, i, n, g])
         linkers = Word([l, i, n, k, e, r, s])
         nose = Word([n, o, s, e])
         fastest = Word([f, a, s, t, e, s, t])
         ring = Word([r, i, n, g])
         
         # Act
-        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(nose, board.GetAnchors()[4], 3, 'down')
-        board.PlaceWord(fastest, board.GetAnchors()[5], 5, 'down')
+        board.PlaceWord(linkers, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(nose, board.GetAnchors()[4], hand, 3, 'down')
+        board.PlaceWord(fastest, board.GetAnchors()[5], hand, 5, 'down')
         results = board.IsWordLegal(ring, board.GetAnchors()[5], 2, 'across')
         
         # Assert 
@@ -654,18 +644,18 @@ class TestBoardClass(unittest.TestCase) :
         s = Tile('s', 1, 0.09480520300163461, 3)
         t = Tile('t', 1, 0.06566549066880407, 17)
 
+        hand = Hand("test", [l, i, n, k, e, r, s, b, e ,l, i, e, s, f, a, s, t, e, s, t, n, o, s, e, r, i, n, g])
         linkers = Word([l, i, n, k, e, r, s])
         belies = Word([b, e, l, i, e, s])
         nose = Word([n, o, s, e])
         fastest = Word([f, a, s, t, e, s, t])
         ring = Word([r, i, n, g])
         
-
         # Act
-        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(belies, board.GetAnchors()[1], 3, 'down')
-        board.PlaceWord(nose, board.GetAnchors()[3], 3, 'down')
-        board.PlaceWord(fastest, board.GetAnchors()[4], 5, 'down')
+        board.PlaceWord(linkers, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(belies, board.GetAnchors()[1], hand, 3, 'down')
+        board.PlaceWord(nose, board.GetAnchors()[3], hand, 3, 'down')
+        board.PlaceWord(fastest, board.GetAnchors()[4], hand, 5, 'down')
         results = board.IsWordLegal(ring, board.GetAnchors()[10], 2, 'across')
         
         # Assert 
@@ -688,15 +678,16 @@ class TestBoardClass(unittest.TestCase) :
         r = Tile('r', 1, 0.07098146383333229, 11)
         s = Tile('s', 1, 0.09480520300163461, 3)
 
+        hand = Hand("test", [l, i, n, k, e, r, s, b, e ,l, i, e, s, n, o, s, e, s, i, n, g])
         linkers = Word([l, i, n, k, e, r, s])
         belies = Word([b, e, l, i, e, s])
         nose = Word([n, o, s, e])
         sing = Word([s, i, n, g])     
 
         # Act
-        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(belies, board.GetAnchors()[1], 3, 'down')
-        board.PlaceWord(nose, board.GetAnchors()[3], 3, 'down')
+        board.PlaceWord(linkers, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(belies, board.GetAnchors()[1], hand, 3, 'down')
+        board.PlaceWord(nose, board.GetAnchors()[3], hand, 3, 'down')
         results = board.IsWordLegal(sing, board.GetAnchors()[11], 2, 'across')
         
         # Assert 
@@ -721,15 +712,16 @@ class TestBoardClass(unittest.TestCase) :
         s = Tile('s', 1, 0.09480520300163461, 3)
         t = Tile('t', 1, 0.06566549066880407, 17)
 
+        hand = Hand("test", [l, i, n, k, e, r, s, b, e ,l, i, e, s, f, a, t, t, e, s, t, n, o, s, e, r, i, n, g])
         linkers = Word([l, i, n, k, e, r, s])
         nose = Word([n, o, s, e])
         fattest = Word([f, a, t, t, e, s, t])
         ring = Word([r, i, n, g])
         
         # Act
-        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(nose, board.GetAnchors()[4], 3, 'down')
-        board.PlaceWord(fattest, board.GetAnchors()[5], 5, 'down')
+        board.PlaceWord(linkers, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(nose, board.GetAnchors()[4], hand, 3, 'down')
+        board.PlaceWord(fattest, board.GetAnchors()[5], hand, 5, 'down')
         results = board.IsWordLegal(ring, board.GetAnchors()[5], 2, 'across')
         
         # Assert 
@@ -754,18 +746,18 @@ class TestBoardClass(unittest.TestCase) :
         s = Tile('s', 1, 0.09480520300163461, 3)
         t = Tile('t', 1, 0.06566549066880407, 17)
 
+        hand = Hand("test", [l, i, n, k, e, r, s, b, e ,l, i, e, s, f, a, t, t, e, s, t, n, o, s, e, s, i, n, g])
         linkers = Word([l, i, n, k, e, r, s])
         belies = Word([b, e, l, i, e, s])
         nose = Word([n, o, s, e])
         fattest = Word([f, a, t, t, e, s, t])
-        sing = Word([s, i, n, g])
-        
+        sing = Word([s, i, n, g])        
 
         # Act
-        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(belies, board.GetAnchors()[1], 3, 'down')
-        board.PlaceWord(nose, board.GetAnchors()[3], 3, 'down')
-        board.PlaceWord(fattest, board.GetAnchors()[4], 5, 'down')
+        board.PlaceWord(linkers, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(belies, board.GetAnchors()[1], hand, 3, 'down')
+        board.PlaceWord(nose, board.GetAnchors()[3], hand, 3, 'down')
+        board.PlaceWord(fattest, board.GetAnchors()[4], hand, 5, 'down')
         results = board.IsWordLegal(sing, board.GetAnchors()[10], 2, 'across')
         
         # Assert 
@@ -790,15 +782,16 @@ class TestBoardClass(unittest.TestCase) :
         r = Tile('r', 1, 0.07098146383333229, 11)
         s = Tile('s', 1, 0.09480520300163461, 3)
 
+        hand = Hand("test", [r, o, l, l, e, r, s, c, a, r, a, b, f, l, a, n, l, i, n, k])
         roller = Word([r, o, l, l, e, r])
         scarab = Word([s, c, a, r, a, b])
         flan = Word([f, l, a, n])
         link = Word([l, i, n, k])
 
         # Act
-        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
-        board.PlaceWord(scarab, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(flan, board.GetAnchors()[2], 1, 'across')
+        board.PlaceWord(roller, board.GetAnchors()[0], hand, 2, 'down')
+        board.PlaceWord(scarab, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(flan, board.GetAnchors()[2], hand, 1, 'across')
         results = board.IsWordLegal(link, board.GetAnchors()[13], 2, 'down')
         
         # Assert 
@@ -823,15 +816,16 @@ class TestBoardClass(unittest.TestCase) :
         t = Tile('t', 1, 0.06566549066880407, 17)
         u = Tile('u', 1, 0.03288670659589642, 37)
 
+        hand = Hand("test", [r, o, l, l, e, r, f, l, a, n, c, r, u, s, t, l, i, n, k])
         roller = Word([r, o, l, l, e, r])
         flan = Word([f, l, a, n])
         crust = Word([c, r, u, s, t])
         link = Word([l, i, n, k])
 
         # Act
-        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
-        board.PlaceWord(flan, board.GetAnchors()[3], 1, 'across')
-        board.PlaceWord(crust, board.GetAnchors()[4], 1, 'across')
+        board.PlaceWord(roller, board.GetAnchors()[0], hand, 2, 'down')
+        board.PlaceWord(flan, board.GetAnchors()[3], hand, 1, 'across')
+        board.PlaceWord(crust, board.GetAnchors()[4], hand, 1, 'across')
         results = board.IsWordLegal(link, board.GetAnchors()[7], 2, 'down')
         
         # Assert 
@@ -857,6 +851,7 @@ class TestBoardClass(unittest.TestCase) :
         t = Tile('t', 1, 0.06566549066880407, 17)
         u = Tile('u', 1, 0.03288670659589642, 37)
 
+        hand = Hand("test", [r, o, l, l, e, r, s, c, a, r, a, b, f, l, a, n, c, r, u, s, t, l, i, n, k])
         roller = Word([r, o, l, l, e, r])
         scarab = Word([s, c, a, r, a, b])
         flan = Word([f, l, a, n])
@@ -864,10 +859,10 @@ class TestBoardClass(unittest.TestCase) :
         link = Word([l, i, n, k])
 
         # Act
-        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
-        board.PlaceWord(scarab, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(flan, board.GetAnchors()[2], 1, 'across')
-        board.PlaceWord(crust, board.GetAnchors()[3], 1, 'across')
+        board.PlaceWord(roller, board.GetAnchors()[0], hand, 2, 'down')
+        board.PlaceWord(scarab, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(flan, board.GetAnchors()[2], hand, 1, 'across')
+        board.PlaceWord(crust, board.GetAnchors()[3], hand, 1, 'across')
         results = board.IsWordLegal(link, board.GetAnchors()[12], 2, 'down')
         
         # Assert 
@@ -892,15 +887,16 @@ class TestBoardClass(unittest.TestCase) :
         r = Tile('r', 1, 0.07098146383333229, 11)
         s = Tile('s', 1, 0.09480520300163461, 3)
 
+        hand = Hand("test", [r, o, l, l, e, r, s, c, a, r, a, b, f, l, a, n, s, i, n, k])
         roller = Word([r, o, l, l, e, r])
         scarab = Word([s, c, a, r, a, b])
         flan = Word([f, l, a, n])
         sink = Word([s, i, n, k])
 
         # Act
-        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
-        board.PlaceWord(scarab, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(flan, board.GetAnchors()[2], 1, 'across')
+        board.PlaceWord(roller, board.GetAnchors()[0], hand, 2, 'down')
+        board.PlaceWord(scarab, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(flan, board.GetAnchors()[2], hand, 1, 'across')
         results = board.IsWordLegal(sink, board.GetAnchors()[13], 2, 'down')
         
         # Assert 
@@ -925,15 +921,16 @@ class TestBoardClass(unittest.TestCase) :
         r = Tile('r', 1, 0.07098146383333229, 11)
         u = Tile('u', 1, 0.03288670659589642, 37)
 
+        hand = Hand("test", [r, o, l, l, e, r, f, l, a, n, c, r, u, m, b, l, i, n, k])
         roller = Word([r, o, l, l, e, r])
         flan = Word([f, l, a, n])
         crumb = Word([c, r, u, m, b])
         link = Word([l, i, n, k])
 
         # Act
-        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
-        board.PlaceWord(flan, board.GetAnchors()[3], 1, 'across')
-        board.PlaceWord(crumb, board.GetAnchors()[4], 1, 'across')
+        board.PlaceWord(roller, board.GetAnchors()[0], hand, 2, 'down')
+        board.PlaceWord(flan, board.GetAnchors()[3], hand, 1, 'across')
+        board.PlaceWord(crumb, board.GetAnchors()[4], hand, 1, 'across')
         results = board.IsWordLegal(link, board.GetAnchors()[7], 2, 'down')
         
         # Assert 
@@ -960,6 +957,7 @@ class TestBoardClass(unittest.TestCase) :
         t = Tile('t', 1, 0.06566549066880407, 17)
         u = Tile('u', 1, 0.03288670659589642, 37)
 
+        hand = Hand("test", [r, o, l, l, e, r, s, c, a, r, a, b, f, l, a, n, c, r, u, m, b, s, i, n, k])
         roller = Word([r, o, l, l, e, r])
         scarab = Word([s, c, a, r, a, b])
         flan = Word([f, l, a, n])
@@ -967,10 +965,10 @@ class TestBoardClass(unittest.TestCase) :
         sink = Word([s, i, n, k])
 
         # Act
-        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
-        board.PlaceWord(scarab, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(flan, board.GetAnchors()[2], 1, 'across')
-        board.PlaceWord(crumb, board.GetAnchors()[3], 1, 'across')
+        board.PlaceWord(roller, board.GetAnchors()[0], hand, 2, 'down')
+        board.PlaceWord(scarab, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(flan, board.GetAnchors()[2], hand, 1, 'across')
+        board.PlaceWord(crumb, board.GetAnchors()[3], hand, 1, 'across')
         results = board.IsWordLegal(sink, board.GetAnchors()[12], 2, 'down')
         
         # Assert 
@@ -997,6 +995,7 @@ class TestBoardClass(unittest.TestCase) :
         s = Tile('s', 1, 0.09480520300163461, 3)
         t = Tile('t', 1, 0.06566549066880407, 17)
 
+        hand = Hand("test", [l, i, n, k, e, r, s, b, e ,l, i, e, s, f, a, s, t, e, s, t, n, o, s, e, r, i, n, g])
         linkers = Word([l, i, n, k, e, r, s])
         belies = Word([b, e, l, i, e, s])
         nose = Word([n, o, s, e])
@@ -1004,10 +1003,10 @@ class TestBoardClass(unittest.TestCase) :
         ring = Word([r, i, n, g])
         
         # Act
-        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(belies, board.GetAnchors()[1], 3, 'down')
-        board.PlaceWord(nose, board.GetAnchors()[3], 3, 'down')
-        board.PlaceWord(ring, board.GetAnchors()[11], 2, 'across')
+        board.PlaceWord(linkers, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(belies, board.GetAnchors()[1], hand, 3, 'down')
+        board.PlaceWord(nose, board.GetAnchors()[3], hand, 3, 'down')
+        board.PlaceWord(ring, board.GetAnchors()[11], hand, 2, 'across')
         results = board.IsWordLegal(fastest, board.GetAnchors()[4], 5, 'down')
         
         # Assert 
@@ -1032,6 +1031,7 @@ class TestBoardClass(unittest.TestCase) :
         s = Tile('s', 1, 0.09480520300163461, 3)
         t = Tile('t', 1, 0.06566549066880407, 17)
 
+        hand = Hand("test", [l, i, n, k, e, r, s, b, e ,l, i, e, s, f, a, t, t, e, s, t, n, o, s, e, s, i, n, g])
         linkers = Word([l, i, n, k, e, r, s])
         belies = Word([b, e, l, i, e, s])
         nose = Word([n, o, s, e])
@@ -1039,10 +1039,10 @@ class TestBoardClass(unittest.TestCase) :
         sing = Word([s, i, n, g])
         
         # Act
-        board.PlaceWord(linkers, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(belies, board.GetAnchors()[1], 3, 'down')
-        board.PlaceWord(nose, board.GetAnchors()[3], 3, 'down')
-        board.PlaceWord(sing, board.GetAnchors()[11], 2, 'across')
+        board.PlaceWord(linkers, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(belies, board.GetAnchors()[1], hand, 3, 'down')
+        board.PlaceWord(nose, board.GetAnchors()[3], hand, 3, 'down')
+        board.PlaceWord(sing, board.GetAnchors()[11], hand, 2, 'across')
         results = board.IsWordLegal(fattest, board.GetAnchors()[4], 5, 'down')
         
         # Assert 
@@ -1069,6 +1069,7 @@ class TestBoardClass(unittest.TestCase) :
         t = Tile('t', 1, 0.06566549066880407, 17)
         u = Tile('u', 1, 0.03288670659589642, 37)
 
+        hand = Hand("test", [r, o, l, l, e, r, s, c, a, r, a, b, f, l, a, n, c, r, u, s, t, l, i, n, k])
         roller = Word([r, o, l, l, e, r])
         scarab = Word([s, c, a, r, a, b])
         flan = Word([f, l, a, n])
@@ -1076,10 +1077,10 @@ class TestBoardClass(unittest.TestCase) :
         link = Word([l, i, n, k])
 
         # Act
-        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
-        board.PlaceWord(scarab, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(flan, board.GetAnchors()[2], 1, 'across')
-        board.PlaceWord(link, board.GetAnchors()[13], 2, 'down')
+        board.PlaceWord(roller, board.GetAnchors()[0], hand, 2, 'down')
+        board.PlaceWord(scarab, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(flan, board.GetAnchors()[2], hand, 1, 'across')
+        board.PlaceWord(link, board.GetAnchors()[13], hand, 2, 'down')
         results = board.IsWordLegal(crust, board.GetAnchors()[3], 1, 'across')
         
         # Assert 
@@ -1106,6 +1107,7 @@ class TestBoardClass(unittest.TestCase) :
         t = Tile('t', 1, 0.06566549066880407, 17)
         u = Tile('u', 1, 0.03288670659589642, 37)
 
+        hand = Hand("test", [r, o, l, l, e, r, s, c, a, r, a, b, f, l, a, n, c, r, u, m, b, s, i, n, k])
         roller = Word([r, o, l, l, e, r])
         scarab = Word([s, c, a, r, a, b])
         flan = Word([f, l, a, n])
@@ -1113,16 +1115,17 @@ class TestBoardClass(unittest.TestCase) :
         sink = Word([s, i, n, k])
 
         # Act
-        board.PlaceWord(roller, board.GetAnchors()[0], 2, 'down')
-        board.PlaceWord(scarab, board.GetAnchors()[0], 3, 'across')
-        board.PlaceWord(flan, board.GetAnchors()[2], 1, 'across')
-        board.PlaceWord(sink, board.GetAnchors()[13], 2, 'down')
+        board.PlaceWord(roller, board.GetAnchors()[0], hand, 2, 'down')
+        board.PlaceWord(scarab, board.GetAnchors()[0], hand, 3, 'across')
+        board.PlaceWord(flan, board.GetAnchors()[2], hand, 1, 'across')
+        board.PlaceWord(sink, board.GetAnchors()[13], hand, 2, 'down')
         results = board.IsWordLegal(crumb, board.GetAnchors()[3], 1, 'across')
         
         # Assert 
         #board.PrintBoard()
         self.assertFalse(results[0])
         self.assertEqual(results[1], 'word creates an invalid word when placed')
+    
     
 
 
