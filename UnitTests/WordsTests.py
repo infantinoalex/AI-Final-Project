@@ -10,6 +10,7 @@ from Words import Words
 
 class TestWordsClass(unittest.TestCase) :
 
+    '''
     def test_Constructor_DefaultConstructor_ContainsFullDictionary(self) :
 
         # Arrange 
@@ -23,7 +24,8 @@ class TestWordsClass(unittest.TestCase) :
 
         # Assert
         self.assertEqual(expectedWordCount, actualWordCount)
-      
+    '''
+    
     def test_Constructor_PassedDictionary_ContainsPassedDictionary(self) :
         
         # Arrange 
