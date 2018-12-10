@@ -202,8 +202,8 @@ class Board :
             for i in range(lowerBound + 1, suffixLowerBound) :
                 fullWord.append(self.board[i, relativeYPos])
             check = Words().ExactWordSearch(Word(fullWord)) 
-            if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
-            else : print(word.GetString(), "\t", Word(fullWord).GetString(), "is a word-------------")
+            #if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
+            #else : print(word.GetString(), "\t", Word(fullWord).GetString(), "is a word-------------")
             return check
         if playDirection == 'down' :
             upperBound = relativeYPos - anchorIndex
@@ -235,8 +235,8 @@ class Board :
             for i in range(lowerBound + 1, suffixLowerBound) :
                 fullWord.append(self.board[relativeXPos, i])
             check = Words().ExactWordSearch(Word(fullWord)) 
-            if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
-            else : print(word.GetString(), "\t", Word(fullWord).GetString(), "is a word")
+            #if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
+            #else : print(word.GetString(), "\t", Word(fullWord).GetString(), "is a word")
             return check
 
     def WordCreatesInvalidWord(self, word, anchor, anchorIndex, playDirection) :
@@ -267,10 +267,20 @@ class Board :
             xPos = anchor.GetXPos()
             yPos = anchor.GetYPos()
             if anchor.GetDirection() == 'across':
-                if self.board[anchor.xPos+1, yPos].GetLetter() != ' ' or self.board[xPos-1, yPos].GetLetter() != ' ':
+                if self.board[anchor.xPos+1, yPos].GetLetter() != ' ' \
+                    or self.board[xPos-1, yPos].GetLetter() != ' ' \
+                    or self.board[xPos-1, yPos-1].GetLetter() != ' ' \
+                    or self.board[xPos-1, yPos+1].GetLetter() != ' ' \
+                    or self.board[xPos+1, yPos-1].GetLetter() != ' ' \
+                    or self.board[xPos+1, yPos+1].GetLetter() != ' ' :
                     badAnchors.append(anchor)
             elif anchor.GetDirection() == 'down':
-                if self.board[xPos, yPos+1].GetLetter() != ' ' or self.board[xPos, yPos-1].GetLetter() != ' ':
+                if self.board[xPos, yPos+1].GetLetter() != ' ' \
+                    or self.board[xPos, yPos-1].GetLetter() != ' '\
+                    or self.board[xPos-1, yPos-1].GetLetter() != ' ' \
+                    or self.board[xPos-1, yPos+1].GetLetter() != ' ' \
+                    or self.board[xPos+1, yPos-1].GetLetter() != ' ' \
+                    or self.board[xPos+1, yPos+1].GetLetter() != ' ' :
                     badAnchors.append(anchor)
         for anchor in badAnchors:
             self.anchors.remove(anchor)
