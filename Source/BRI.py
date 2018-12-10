@@ -13,7 +13,7 @@ class BRI:
         #Return word, anchor, anchorindex, direction
         #Get words for each anchor, find best word, compare best words sequentially
         anchors = board.GetAnchors()
-       # random.shuffle(anchors)
+        #random.shuffle(anchors)
         bestWord = Word()
         bestWord.SetScore(-99999)
         for anchor in anchors:

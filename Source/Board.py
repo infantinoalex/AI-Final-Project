@@ -203,6 +203,7 @@ class Board :
                 fullWord.append(self.board[i, relativeYPos])
             check = Words().ExactWordSearch(Word(fullWord)) 
             if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
+            else : print(word.GetString(), "\t", Word(fullWord).GetString(), "is a word-------------")
             return check
         if playDirection == 'down' :
             upperBound = relativeYPos - anchorIndex
@@ -235,12 +236,14 @@ class Board :
                 fullWord.append(self.board[relativeXPos, i])
             check = Words().ExactWordSearch(Word(fullWord)) 
             if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
+            else : print(word.GetString(), "\t", Word(fullWord).GetString(), "is a word")
             return check
 
     def WordCreatesInvalidWord(self, word, anchor, anchorIndex, playDirection) :
-        invalidWord = False
+
         if not self.PrefixAndSuffixClear(word, anchor, anchorIndex, playDirection) : 
-            invalidWord = True
+            return True
+
         for i in range(len(word.GetTiles())) :
             tile = word.GetTiles()[i]
             temp = Word([tile])
@@ -248,13 +251,14 @@ class Board :
                 x = anchor.GetXPos() - anchorIndex + i
                 y = anchor.GetYPos()
                 if not self.PrefixAndSuffixClear(temp, Anchor(tile, x, y), 0, 'down') : 
-                    invalidWord = True
+                    return True
             if i is not anchorIndex and playDirection is 'down':
                 x = anchor.GetXPos()
                 y = anchor.GetYPos() - anchorIndex + i
                 if not self.PrefixAndSuffixClear(temp, Anchor(tile, x, y), 0, 'across') : 
-                    invalidWord = True
-        return invalidWord
+                    return True
+
+        return False
 
 
     def ValidateAnchors(self):
