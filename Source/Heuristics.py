@@ -52,7 +52,7 @@ class UncommonLettersHeuristic :
         return score
 
     def Scale(self) :
-        return 4
+        return 8
 
 class ConsonantVowelHeuristic :
     def __init__(self) :
@@ -90,7 +90,7 @@ class ConsonantVowelHeuristic :
         return (-10.0 * (ratio - 1.7)) * (ratio - 2.7) 
 
     def Scale(self) :
-        return 1
+        return 10
 
 class LetterScoringHeuristic :
     def __init__(self) :
@@ -111,4 +111,4 @@ class LetterScoringHeuristic :
         return score
 
     def Scale(self) :
-        return 3
+        return 2
