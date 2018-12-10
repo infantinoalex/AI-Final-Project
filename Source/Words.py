@@ -74,10 +74,9 @@ class Words :
         possibleWords = self.GetDict().get(key)
         if possibleWords is None :
             return False
-        elif value.upper() in possibleWords :
-                return True
-        else : 
-            return False
+        if value.upper() in possibleWords :
+            return True
+        return False
 
     def AnchorSearch(self, word) :
         if len(word.GetTiles()) == 1 :
