@@ -5,6 +5,8 @@ unitTestPath = os.path.dirname(__file__) + "/../Source"
 sys.path.append(unitTestPath)
 
 from Heuristics import *
+from Word import *
+from Tile import *
 
 class TestTilesClass(unittest.TestCase) :
 
@@ -13,7 +15,7 @@ class TestTilesClass(unittest.TestCase) :
         expected = 0
         hand = []
         word = "TEST"
-        heuristic = Heuristic()
+        heuristic = NullHeuristic()
 
         # Act
         result = heuristic.ScoreWord(word, hand)
@@ -25,7 +27,20 @@ class TestTilesClass(unittest.TestCase) :
         # Arrange
         expected = 4
         hand = []
-        word = "FOUR"
+        f = "F"
+        o = "O"
+        u = "U"
+        r = "R"
+        tiles = []
+        fTile = Tile(f)
+        oTile = Tile(o)
+        uTile = Tile(u)
+        rTile = Tile(r)
+        tiles.append(fTile)
+        tiles.append(oTile)
+        tiles.append(uTile)
+        tiles.append(rTile)
+        word = Word(tiles)
         heuristic = LongestWordHeuristic()
 
         # Act
@@ -38,7 +53,11 @@ class TestTilesClass(unittest.TestCase) :
         # Arrange
         expected = 1
         hand = []
-        word = "A"
+        letter = "A"
+        wordTile = Tile(letter)
+        tiles = []
+        tiles.append(wordTile)
+        word = Word(tiles)
         heuristic = LetterScoringHeuristic()
 
         # Act
@@ -51,7 +70,21 @@ class TestTilesClass(unittest.TestCase) :
         # Arrange
         expected = 14
         hand = []
-        word = "QUEEN"
+        q = "Q"
+        u = "U"
+        e = "E"
+        n = "N"
+        tiles = []
+        qTile = Tile(q)
+        uTile = Tile(u)
+        eTile = Tile(e)
+        nTile = Tile(n)
+        tiles.append(qTile)
+        tiles.append(uTile)
+        tiles.append(eTile)
+        tiles.append(eTile)
+        tiles.append(nTile)
+        word = Word(tiles)
         heuristic = LetterScoringHeuristic()
 
         # Act
