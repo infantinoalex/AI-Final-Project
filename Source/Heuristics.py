@@ -8,12 +8,12 @@ def CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreW
     ratioHeuristic = ConsonantVowelHeuristic(ratioScale)
     scoreWordHeuristic = LetterScoringHeuristic(scoreWordScale)
 
-    heuristics.append(lonegstWordHeuristic)
-    hueristics.append(uncommonLetterHeuristic)
+    heuristics.append(longestWordHeuristic)
+    heuristics.append(uncommonLetterHeuristic)
     heuristics.append(ratioHeuristic)
     heuristics.append(scoreWordHeuristic)
 
-    return Heuristic(hueristics)
+    return Heuristic(heuristics)
 
 class Heuristic :
     def __init__(self, hueristics=[]) :

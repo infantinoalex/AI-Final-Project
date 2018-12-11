@@ -95,7 +95,7 @@ def main() :
 	ratioScale = sys.argv[3]
 	scoreWordScale = sys.argv[4]
 
-	heuristic = CalculateHeuristic(0, 0, 0, 0)
+	heuristic = CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale)
 
 	game = Game(heuristic)
 	game.Play()
