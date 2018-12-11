@@ -11,7 +11,7 @@ from BRI import BRI
 from Heuristics import *
 from ReadInFiles import ReadInTilesFromFile
 import Tile
-from sys import argv
+import sys
 
 class Game:
 	def __init__(self, heuristic):
@@ -86,9 +86,6 @@ class Game:
 		print("Words played were:", playedWords)
 
 
-if __name__ == '__main__' :
-	main()
-
 def main() :
 	longestWordScale = sys.argv[1]
 	uncommonLetterScale = sys.argv[2]
@@ -99,3 +96,6 @@ def main() :
 
 	game = Game(heuristic)
 	game.Play()
+
+if __name__ == '__main__' :
+	main()
