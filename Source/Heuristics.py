@@ -1,6 +1,20 @@
 from ReadInFiles import ReadInTilesFromFile
 from math import e
 
+def CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale) :
+    heuristics = []
+    longestWordHeuristic = LongestWordHeuristic(longestWordScale)
+    uncommonLetterHeuristic = UncommonLettersHeuristic(uncommonLetterScale)
+    ratioHeuristic = ConsonantVowelHeuristic(ratioScale)
+    scoreWordHeuristic = LetterScoringHeuristic(scoreWordScale)
+
+    heuristics.append(lonegstWordHeuristic)
+    hueristics.append(uncommonLetterHeuristic)
+    heuristics.append(ratioHeuristic)
+    heuristics.append(scoreWordHeuristic)
+
+    return Heuristic(hueristics)
+
 class Heuristic :
     def __init__(self, hueristics=[]) :
         self.heuristcs = hueristics
@@ -18,23 +32,29 @@ class Heuristic :
         return 1
 
 class NullHeuristic :
+    def __init__(self, scale) :
+        self.scale = scale
+
     def ScoreWord(self, wordToPlay, hand) :
         return 0
 
     def Scale(self) :
-        return 1
+        return self.scale
 
 class LongestWordHeuristic :
+    def __init__(self, scale) :
+        self.scale = scale
+
     def ScoreWord(self, wordToPlay, hand) :
         count = len(wordToPlay.GetTiles())
 
         return count
 
     def Scale(self) :
-        return 2
+        return self.scale
 
 class UncommonLettersHeuristic :
-    def __init__(self) :
+    def __init__(self, scale) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
         for tile in tiles :
@@ -42,6 +62,8 @@ class UncommonLettersHeuristic :
             score = tile.GetScore()
             if letter not in self.letterScoreDictionary  :
                 self.letterScoreDictionary[letter] = score
+
+        self.scale = scale
 
     def ScoreWord(self, wordToPlay, hand) :
         score = 0
@@ -52,16 +74,18 @@ class UncommonLettersHeuristic :
         return score
 
     def Scale(self) :
-        return 8
+        return self.scale
 
 class ConsonantVowelHeuristic :
-    def __init__(self) :
+    def __init__(self, scale) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
         for tile in tiles :
             letter = tile.GetLetter()
             if letter not in self.letterScoreDictionary  :
                 self.letterScoreDictionary[letter] = tile
+        
+        self.scale = scale
 
     def ScoreWord(self, wordToPlay, hand) :
         numberOfConsonants = 0
@@ -90,10 +114,10 @@ class ConsonantVowelHeuristic :
         return (-10.0 * (ratio - 1.7)) * (ratio - 2.7) 
 
     def Scale(self) :
-        return 10
+        return self.scale
 
 class LetterScoringHeuristic :
-    def __init__(self) :
+    def __init__(self, scale) :
         self.letterScoreDictionary = {}
         tiles = ReadInTilesFromFile("..\Data\processed_letters.txt")
         for tile in tiles :
@@ -101,6 +125,8 @@ class LetterScoringHeuristic :
             score = tile.GetScore()
             if letter not in self.letterScoreDictionary  :
                 self.letterScoreDictionary[letter] = score
+
+        self.scale = scale
 
 
     def ScoreWord(self, wordToPlay, hand) :
@@ -111,4 +137,4 @@ class LetterScoringHeuristic :
         return score
 
     def Scale(self) :
-        return 2
+        return self.scale
