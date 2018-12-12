@@ -104,12 +104,12 @@ def main() :
 	#scoreWordScale = sys.argv[4]
 
 	#heuristic = CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale)
-	heuristic = CalculateHeuristic(1, 1, 1, 1)
+	heuristic = CalculateHeuristic(1, 1, 1, 1, 1)
 
 	scoreResults = []
 	remainingLetterResults = []
 
-	size = 10
+	size = 1
 
 	for i in range(size) :
 		game = Game(heuristic)
