@@ -15,7 +15,7 @@ class Bunch :
 
     def __init__(self, tiles = []) :
         if (not tiles) :
-            self.bunch = ReadInTilesFromFile("..\\Data\\processed_half_letters.txt")
+            self.bunch = ReadInTilesFromFile("..\\Data\\processed_third_letters.txt")
         else :
             self.bunch = tiles
 
@@ -26,7 +26,7 @@ class Bunch :
         return self.bunch
 
     def Peel(self) :
-        randomInt = randint(4, 8)
+        randomInt = randint(2, 5)
         return self.DealFromBunch(randomInt)
 
     def ScoreBunch(self) :

@@ -18,7 +18,7 @@ class Words :
         self.dict = words
         if not len(words) :
             directory = os.path.dirname(__file__)
-            words_df = pd.read_csv(directory + "/../Data/processed_half_words.txt")
+            words_df = pd.read_csv(directory + "/../Data/processed_third_words.txt")
             words = words_df.values[:, 0:2]
             for word in words :
                 if word[1] in self.dict : self.dict[word[1]].append(word[0])

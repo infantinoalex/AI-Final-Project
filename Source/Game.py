@@ -43,6 +43,8 @@ class Game:
 	def Play(self):
 		timeStart = time.time()
 		playedWords = []
+		for t in self.hand.PeekHand():
+			print(t.GetLetter(), end=" ")
 		while not self.IsEndState():
 			try :
 				word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
@@ -50,8 +52,9 @@ class Game:
 				print(playedWords)
 				self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
 				self.board.PrintBoard()
-			except:
+			except Exception as ex:
 				print("Error trying to get best move")
+				print(ex)
 				self.concurrentExceptions += 1
 
 			self.hand.AddTilesToHand(self.bunch.Peel())
@@ -63,6 +66,7 @@ class Game:
 			bunchScore = self.bunch.ScoreBunch()
 			print("Hand Score: ", handScore)
 			print("Bunch Score: ", bunchScore)
+			print("Total Score: ", handScore + bunchScore)
 			bunchList = self.bunch.GetBunch()
 			bunchLength = len(bunchList)
 			print("Items left in bunch: ", bunchLength)
@@ -80,22 +84,42 @@ class Game:
 		bunchScore = self.bunch.ScoreBunch()
 		print("Hand score: ", handScore)
 		print("Bunch score: ", bunchScore)
+		print("Total score: ", handScore + bunchScore)
 		if self.concurrentExceptions > 5 :
 			print("Too many exceptions thrown")
 
 		print("Words played were:", playedWords)
 
+		results = []
+		for t in self.hand.PeekHand():
+			results.append(t.GetLetter())
+
+		return [handScore + bunchScore, results]
+
 
 def main() :
-	longestWordScale = sys.argv[1]
-	uncommonLetterScale = sys.argv[2]
-	ratioScale = sys.argv[3]
-	scoreWordScale = sys.argv[4]
+	#longestWordScale = sys.argv[1]
+	#uncommonLetterScale = sys.argv[2]
+	#ratioScale = sys.argv[3]
+	#scoreWordScale = sys.argv[4]
 
-	heuristic = CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale)
+	#heuristic = CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale)
+	heuristic = CalculateHeuristic(1, 1, 1, 1)
 
-	game = Game(heuristic)
-	game.Play()
+	scoreResults = []
+	remainingLetterResults = []
+
+	size = 10
+
+	for i in range(size) :
+		game = Game(heuristic)
+		results = game.Play()
+		scoreResults.append(results[0])
+		remainingLetterResults.append(results[1])
+
+	print(sum(scoreResults) / len(scoreResults))
+	for i in range(size) :
+		print(scoreResults[i], ":", remainingLetterResults[i])
 
 if __name__ == '__main__' :
 	main()

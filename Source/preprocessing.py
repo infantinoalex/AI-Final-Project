@@ -30,7 +30,7 @@ words_df = pd.read_csv(directory + "/../Data/words.txt")
 words_df['prime'] = pd.Series(np.zeros(len(words_df)), index=words_df.index)
 words = words_df.values[:, 0:2]
 
-letters_df = pd.read_csv(directory + "/../Data/half_letters.txt")
+letters_df = pd.read_csv(directory + "/../Data/third_letters.txt")
 letters_df['frequency'] = pd.Series(np.zeros(len(letters_df)), index=letters_df.index)
 letters_df['prime'] = pd.Series(np.zeros(len(letters_df)), index=letters_df.index)
 letters = letters_df.values[:, 0:6]
@@ -109,9 +109,9 @@ print("word primes calculated in", (end - start), "seconds")
 # Write Preprocessed Letters & Words to File
 
 processed_letters_df = pd.DataFrame(letters)
-processed_letters_df.to_csv("Data/processed_half_letters.txt", index=None)
+processed_letters_df.to_csv("Data/processed_third_letters.txt", index=None)
 
 processed_words_df = pd.DataFrame(words)
-processed_words_df.to_csv("Data/processed_half_words.txt", index=None)
+processed_words_df.to_csv("Data/processed_third_words.txt", index=None)
 
 #########################################################
