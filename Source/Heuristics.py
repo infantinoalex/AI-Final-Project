@@ -165,8 +165,11 @@ class WordsInHandHeuristic :
         words = Words()
         result = words.WordSearch(word).GetDict()
 
-        numberOfWords = len(result.values())
-        return numberOfWords
+        count = 0
+        for value in result.values() :
+            count += len(value)
+
+        return count
 
     def Scale(self) :
         return self.scale
