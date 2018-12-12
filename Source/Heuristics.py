@@ -31,7 +31,7 @@ class LongestWordHeuristic :
         return count
 
     def Scale(self) :
-        return 2
+        return 10
 
 class UncommonLettersHeuristic :
     def __init__(self) :
@@ -52,7 +52,7 @@ class UncommonLettersHeuristic :
         return score
 
     def Scale(self) :
-        return 4
+        return 0
 
 class ConsonantVowelHeuristic :
     def __init__(self) :
@@ -86,8 +86,7 @@ class ConsonantVowelHeuristic :
 
         ratio = float(numberOfConsonants) / float(numberOfVowels)
 
-        #return (-(ratio - 1.3)) * (ratio - 2.5) 
-        return (-10.0 * (ratio - 1.7)) * (ratio - 2.7) 
+        return (-(ratio - 1.3)) * (ratio - 2.5) 
 
     def Scale(self) :
         return 1
@@ -106,9 +105,10 @@ class LetterScoringHeuristic :
     def ScoreWord(self, wordToPlay, hand) :
         score = 0
         for tile in wordToPlay.GetTiles() :
-            score += self.letterScoreDictionary[tile.GetLetter()]
+            letterScore = self.letterScoreDictionary[tile.GetLetter()]
+            score += letterScore * letterScore
 
         return score
 
     def Scale(self) :
-        return 3
+        return 0
