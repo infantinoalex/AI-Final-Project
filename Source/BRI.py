@@ -60,6 +60,7 @@ class BRI:
                 for i in indices:
                     if board.IsWordLegal(word, anchor, i, direction):
                         optionsCleaned[word] = (i, direction)
+                        print(word.GetString())
                        # print(word.GetString(), i, dir)
             timeDiff = time.time() - timeStart
             if (timeDiff > 5):
