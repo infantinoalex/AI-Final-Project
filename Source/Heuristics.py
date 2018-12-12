@@ -1,5 +1,8 @@
 from ReadInFiles import ReadInTilesFromFile
 from math import e
+from Words import Words
+from Word import Word
+from Hand import Hand
 
 def CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale) :
     heuristics = []
@@ -135,6 +138,35 @@ class LetterScoringHeuristic :
             score += self.letterScoreDictionary[tile.GetLetter()]
 
         return score
+
+    def Scale(self) :
+        return self.scale
+
+class WordsInHandHeuristic :
+    def __init__(self, scale) :
+        self.letterDictioanry = {}
+        tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
+        for tile in tiles :
+            letter = tile.GetLetter()
+            if letter not in self.letterDictioanry  :
+                self.letterDictioanry[letter] = tile
+
+        self.scale = scale
+
+    def ScoreWord(self, wordToPlay, hand) :
+        handTiles = hand.PeekHand()
+        newHand = Hand("Test", handTiles)
+        for tile in wordToPlay.GetTiles() :
+            newHand.RemoveTileFromHand(tile)
+
+        handTiles = newHand.PeekHand()
+
+        word = Word(handTiles)
+        words = Words()
+        result = words.WordSearch(word).GetDict()
+
+        numberOfWords = len(result.values())
+        return numberOfWords
 
     def Scale(self) :
         return self.scale

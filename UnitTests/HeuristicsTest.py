@@ -7,6 +7,7 @@ sys.path.append(unitTestPath)
 from Heuristics import *
 from Word import *
 from Tile import *
+from Hand import *
 
 class TestTilesClass(unittest.TestCase) :
 
@@ -15,7 +16,7 @@ class TestTilesClass(unittest.TestCase) :
         expected = 0
         hand = []
         word = "TEST"
-        heuristic = NullHeuristic()
+        heuristic = NullHeuristic(0)
 
         # Act
         result = heuristic.ScoreWord(word, hand)
@@ -41,7 +42,7 @@ class TestTilesClass(unittest.TestCase) :
         tiles.append(uTile)
         tiles.append(rTile)
         word = Word(tiles)
-        heuristic = LongestWordHeuristic()
+        heuristic = LongestWordHeuristic(0)
 
         # Act
         result = heuristic.ScoreWord(word, hand)
@@ -58,7 +59,7 @@ class TestTilesClass(unittest.TestCase) :
         tiles = []
         tiles.append(wordTile)
         word = Word(tiles)
-        heuristic = LetterScoringHeuristic()
+        heuristic = LetterScoringHeuristic(0)
 
         # Act
         result = heuristic.ScoreWord(word, hand)
@@ -85,7 +86,55 @@ class TestTilesClass(unittest.TestCase) :
         tiles.append(eTile)
         tiles.append(nTile)
         word = Word(tiles)
-        heuristic = LetterScoringHeuristic()
+        heuristic = LetterScoringHeuristic(0)
+
+        # Act
+        result = heuristic.ScoreWord(word, hand)
+
+        # Assert
+        self.assertEqual(result, expected)
+
+    def test_WordsInHandHeuristic(self) :
+        # Arrange
+        expected = 156317
+        q = "Q"
+        u = "U"
+        e = "E"
+        n = "N"
+        a = "A"
+        c = "C"
+        d = "D"
+        tiles = []
+        handTiles = []
+        qTile = Tile(q)
+        uTile = Tile(u)
+        eTile = Tile(e)
+        nTile = Tile(n)
+        aTile = Tile(a)
+        cTile = Tile(c)
+        dTile = Tile(d)
+        tiles.append(qTile)
+        tiles.append(uTile)
+        tiles.append(eTile)
+        tiles.append(eTile)
+        tiles.append(nTile)
+        word = Word(tiles)
+        handTiles.append(qTile)
+        handTiles.append(uTile)
+        handTiles.append(uTile)
+        handTiles.append(eTile)
+        handTiles.append(eTile)
+        handTiles.append(eTile)
+        handTiles.append(eTile)
+        handTiles.append(eTile)
+        handTiles.append(nTile) 
+        handTiles.append(aTile)
+        handTiles.append(aTile)
+        handTiles.append(cTile)
+        handTiles.append(dTile)
+        handTiles.append(dTile)
+        hand = Hand("Yeet", handTiles)
+        heuristic = WordsInHandHeuristic(0)
 
         # Act
         result = heuristic.ScoreWord(word, hand)
