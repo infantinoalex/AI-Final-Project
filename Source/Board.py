@@ -202,8 +202,8 @@ class Board :
             for i in range(lowerBound + 1, suffixLowerBound) :
                 fullWord.append(self.board[i, relativeYPos])
             check = Words().ExactWordSearch(Word(fullWord)) 
-            #if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
-            #else : print(word.GetString(), "\t", Word(fullWord).GetString(), "is a word-------------")
+         #   if check is False : print(word.GetString(), "\t", Word(fullWord).GetString(), "is not a word")
+         #   else : print(word.GetString(), "\t", Word(fullWord).GetString(), "is a word-------------")
             return check
         if playDirection == 'down' :
             upperBound = relativeYPos - anchorIndex

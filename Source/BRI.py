@@ -47,7 +47,10 @@ class BRI:
         optionsCleaned = dict()
         direction = anchor.GetDirection()
         timeStart = time.time()
-        for key, strWordList in options.GetDict().items():
+        shuffledOptions = list(options.GetDict().values())
+        random.shuffle(shuffledOptions)
+        #print(shuffledOptions)
+        for strWordList in shuffledOptions:
             for strWord in strWordList:
                 word = self.MakeItWord(strWord)
                 if anchor.GetLetter() is " ":

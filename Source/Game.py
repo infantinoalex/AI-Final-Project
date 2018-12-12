@@ -11,23 +11,16 @@ from BRI import BRI
 from Heuristics import *
 from ReadInFiles import ReadInTilesFromFile
 import Tile
+import sys
 
 class Game:
-	def __init__(self, heuristic="LongestWordHeuristic"):
+	def __init__(self, heuristic):
 		self.bunch = Bunch()
 		handTiles = self.bunch.DealFromBunch(15)
 		self.hand = Hand("BRI", handTiles)
 		self.bunch.DealFromBunch(15)
 		self.board = Board()
 		self.board.PrintBoard()
-
-		heuristics = []
-		heuristics.append(LongestWordHeuristic())
-		heuristics.append(ConsonantVowelHeuristic())
-		heuristics.append(LetterScoringHeuristic())
-		heuristics.append(UncommonLettersHeuristic())
-
-		heuristic = Heuristic(heuristics)
 
 		self.concurrentExceptions = 0
 		self.bri = BRI(heuristic)
@@ -93,5 +86,16 @@ class Game:
 		print("Words played were:", playedWords)
 
 
-game = Game()
-game.Play()
+def main() :
+	longestWordScale = sys.argv[1]
+	uncommonLetterScale = sys.argv[2]
+	ratioScale = sys.argv[3]
+	scoreWordScale = sys.argv[4]
+
+	heuristic = CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale)
+
+	game = Game(heuristic)
+	game.Play()
+
+if __name__ == '__main__' :
+	main()
