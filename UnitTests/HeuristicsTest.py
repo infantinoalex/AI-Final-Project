@@ -96,7 +96,7 @@ class TestTilesClass(unittest.TestCase) :
 
     def test_WordsInHandHeuristic(self) :
         # Arrange
-        expected = 173924
+        expected = 5.240359515000908
         q = "Q"
         u = "U"
         e = "E"

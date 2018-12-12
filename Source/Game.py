@@ -87,12 +87,13 @@ class Game:
 
 
 def main() :
-	longestWordScale = sys.argv[1]
-	uncommonLetterScale = sys.argv[2]
-	ratioScale = sys.argv[3]
-	scoreWordScale = sys.argv[4]
+	longestWordScale = 0#sys.argv[1]
+	uncommonLetterScale = 0#sys.argv[2]
+	ratioScale = 0#sys.argv[3]
+	scoreWordScale = 1#sys.argv[4]
+	wordsLeftScale = 1#sys.argv[5]
 
-	heuristic = CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale)
+	heuristic = CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale, wordsLeftScale)
 
 	game = Game(heuristic)
 	game.Play()
