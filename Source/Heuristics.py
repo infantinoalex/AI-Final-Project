@@ -1,21 +1,23 @@
 from ReadInFiles import ReadInTilesFromFile
+import math
 from math import e
 from Words import Words
 from Word import Word
 from Hand import Hand
 
-def CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale) :
+def CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale, wordsLeftScale) :
     heuristics = []
     longestWordHeuristic = LongestWordHeuristic(longestWordScale)
     uncommonLetterHeuristic = UncommonLettersHeuristic(uncommonLetterScale)
     ratioHeuristic = ConsonantVowelHeuristic(ratioScale)
     scoreWordHeuristic = LetterScoringHeuristic(scoreWordScale)
+    wordsLeftHeuristic = WordsInHandHeuristic(wordsLeftScale)
 
     heuristics.append(longestWordHeuristic)
     heuristics.append(uncommonLetterHeuristic)
     heuristics.append(ratioHeuristic)
     heuristics.append(scoreWordHeuristic)
-
+    heuristics.append(wordsLeftHeuristic)
     return Heuristic(heuristics)
 
 class Heuristic :
@@ -169,7 +171,7 @@ class WordsInHandHeuristic :
         for value in result.values() :
             count += len(value)
 
-        return count
+        return math.log10(count)
 
     def Scale(self) :
         return self.scale
