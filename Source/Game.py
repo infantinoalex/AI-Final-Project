@@ -143,16 +143,18 @@ def main() :
 
 		if new_results < best_results :
 			best_results = new_results
+			results = []
 			lrate_a = a * lrate_a
 			lrate_b = b * lrate_b
 			lrate_c = c * lrate_c
 			lrate_d = d * lrate_d
 			lrate_e = e * lrate_e
-			print("new a:", lrate_a)
-			print("new b:", lrate_b)
-			print("new c:", lrate_c)
-			print("new d:", lrate_d)
-			print("new e:", lrate_e)	
+		
+		print("new a:", lrate_a)
+		print("new b:", lrate_b)
+		print("new c:", lrate_c)
+		print("new d:", lrate_d)
+		print("new e:", lrate_e)	
 		
 		lrate_a = random.uniform(0.0, 2.0)
 		lrate_b = random.uniform(0.0, 2.0)
