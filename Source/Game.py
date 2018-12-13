@@ -29,11 +29,11 @@ class Game:
 		self.timer = self.time #nanoseconds
 
 	def IsGoalState(self):
-		#print("Goal State:", self.bunch.IsBunchEmpty(), self.hand.IsHandEmpty())
+		print("Goal State:", self.bunch.IsBunchEmpty(), self.hand.IsHandEmpty())
 		return self.bunch.IsBunchEmpty() and self.hand.IsHandEmpty()
 
 	def IsTimeOut(self):
-		#print("Time out:", self.timer)
+		print("Time out:", self.timer)
 		return self.timer <= 0
 
 	def IsEndState(self):
@@ -75,7 +75,7 @@ class Game:
 			print()
 
 			timeDiff = time.time() - timeStart
-			#print("Time:", timeDiff)
+			print("Time:", timeDiff)
 			self.timer = self.time - timeDiff
 
 		if self.IsGoalState():
@@ -143,12 +143,12 @@ def main() :
 
 		if new_results < best_results :
 			best_results = new_results
-			results = []
 			lrate_a = a * lrate_a
 			lrate_b = b * lrate_b
 			lrate_c = c * lrate_c
 			lrate_d = d * lrate_d
 			lrate_e = e * lrate_e
+			print("updated lrates")
 		
 		print("new a:", lrate_a)
 		print("new b:", lrate_b)
@@ -161,7 +161,7 @@ def main() :
 		lrate_c = random.uniform(0.0, 2.0)
 		lrate_d = random.uniform(0.0, 2.0)
 		lrate_e = random.uniform(0.0, 2.0)
-
+		results = []
 		print("==================================================================")
 
 	#for i in range(size) :
