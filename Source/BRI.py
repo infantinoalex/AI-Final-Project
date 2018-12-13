@@ -4,6 +4,8 @@ from Board import Board
 from Tile import Tile
 import random
 import time
+import sys
+min = -sys.maxsize -1
 
 class BRI:
     def __init__(self, heuristic):
@@ -15,22 +17,23 @@ class BRI:
         anchors = board.GetAnchors()
         random.shuffle(anchors)
         bestWord = Word()
-        bestWord.SetScore(float("-inf"))
+        bestWord.SetScore(min)
         for anchor in anchors:
             # get list of possible words for each anchor
             # match words to hand
             words = self.MatchWords(hand, anchor, board)
-            # set scores for words, find best word
-            for word in words.keys():
-                word.SetScore(self.heuristic.ScoreWord(word, hand))
-                if word.GetScore() > bestWord.GetScore():
-                    bestWord = word
-                    bestAnchor = anchor
-                    bestIndex = words[word][0]
-                    bestDirection = words[word][1]
+            # check for case no legal move is found
+            if words is not None :
+                # set scores for words, find best word
+                for word in words.keys():
+                    word.SetScore(self.heuristic.ScoreWord(word, hand))
+                    if word.GetScore() > bestWord.GetScore() :
+                        bestWord = word
+                        bestAnchor = anchor
+                        bestIndex = words[word][0]
+                        bestDirection = words[word][1]
         # check for case no legal move is found
-        if bestWord.GetScore() is float("-inf"):
-            print("BRI: No valid word options found!")
+        if bestWord.GetScore() is min:
             raise Exception("BRI: No valid word options found!")
         return bestWord, bestAnchor, bestIndex, bestDirection
 
@@ -52,18 +55,17 @@ class BRI:
         #print(shuffledOptions)
         for strWordList in shuffledOptions:
             for strWord in strWordList:
-                word = self.MakeItWord(strWord)
-                if anchor.GetLetter() is " ":
-                    indices = [int(len(strWord)/2)]
-                else:
-                    indices = [i for i, a in enumerate(word.GetString()) if a == anchor.GetLetter() ]
-                for i in indices:
-                    if board.IsWordLegal(word, anchor, i, direction):
-                        optionsCleaned[word] = (i, direction)
-                        print(word.GetString())
-                       # print(word.GetString(), i, dir)
+                if (len(strWord) <= len(handTiles)) :
+                    word = self.MakeItWord(strWord)
+                    if anchor.GetLetter() is " ":
+                        indices = [int(len(strWord)/2)]
+                    else:
+                        indices = [i for i, a in enumerate(word.GetString()) if a == anchor.GetLetter() ]
+                    for i in indices:
+                        if board.IsWordLegal(word, anchor, i, direction):
+                            optionsCleaned[word] = (i, direction)
             timeDiff = time.time() - timeStart
-            if (timeDiff > 2):
+            if (timeDiff > 5):
                 break
         return optionsCleaned
 

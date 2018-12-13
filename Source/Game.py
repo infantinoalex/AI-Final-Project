@@ -45,33 +45,34 @@ class Game:
 		playedWords = []
 		for t in self.hand.PeekHand():
 			print(t.GetLetter(), end=" ")
+		print()
 		while not self.IsEndState():
 			try :
 				word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
 				playedWords.append(word.GetString())
-				print(playedWords)
+				#print(playedWords)
 				self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
 				self.board.PrintBoard()
+
+				print()
+				print(playedWords)
+				print()
+				print("Hand Score: ", self.hand.GetScore())
+				print("Bunch Score: ", self.bunch.ScoreBunch())
+				print("Total Score: ", self.hand.GetScore() + self.bunch.ScoreBunch())
+				print("Items left in bunch: ", len(self.bunch.GetBunch()))
+
 			except Exception as ex:
-				print("Error trying to get best move")
-				print(ex)
+				#print("\t Error trying to get best move")
+				print("\t", ex)
 				self.concurrentExceptions += 1
 
 			self.hand.AddTilesToHand(self.bunch.Peel())
-			print(playedWords)
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
-			print()
-			handScore = self.hand.GetScore()
-			bunchScore = self.bunch.ScoreBunch()
-			print("Hand Score: ", handScore)
-			print("Bunch Score: ", bunchScore)
-			print("Total Score: ", handScore + bunchScore)
-			bunchList = self.bunch.GetBunch()
-			bunchLength = len(bunchList)
-			print("Items left in bunch: ", bunchLength)
+
 			timeDiff = time.time() - timeStart
-			print("Time:", timeDiff)
+			#print("Time:", timeDiff)
 			self.timer = self.time - timeDiff
 
 		if self.IsGoalState():
@@ -103,13 +104,13 @@ def main() :
 	#ratioScale = sys.argv[3]
 	#scoreWordScale = sys.argv[4]
 
-	#heuristic = CalculateHeuristic(longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale)
-	heuristic = CalculateHeuristic(1, 1, 1, 1, 1)
+	#longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale, playableWordsCheck
+	heuristic = CalculateHeuristic(0, 0, 1, 0, 0)
 
 	scoreResults = []
 	remainingLetterResults = []
 
-	size = 1
+	size = 10
 
 	for i in range(size) :
 		game = Game(heuristic)

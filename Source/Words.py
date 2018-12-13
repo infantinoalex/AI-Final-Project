@@ -16,7 +16,7 @@ class Words :
 
     def __init__(self, words={}) :
         self.dict = words
-        if not len(words) :
+        if not words :
             directory = os.path.dirname(__file__)
             words_df = pd.read_csv(directory + "/../Data/processed_third_words.txt")
             words = words_df.values[:, 0:2]

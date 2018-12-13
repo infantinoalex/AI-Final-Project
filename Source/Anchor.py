@@ -15,10 +15,9 @@ class Anchor :
         self.xPos = x # position of the tile on the board
         self.yPos = y # position of the tile on the board
         self.dir = dir
-        if self.data.GetLetter() == ' ' : 
-            self.possibleWords = Words()
-        else : 
-            self.possibleWords = Words().TileSearch(self.data)
+        self.possibleWords = Words()
+        if self.data.GetLetter() is not ' ' : 
+            self.possibleWords = self.possibleWords.TileSearch(self.data)
 
     def GetTile(self) :
         return self.data

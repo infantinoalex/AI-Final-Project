@@ -74,7 +74,7 @@ class UncommonLettersHeuristic :
         score = 0
         for tile in wordToPlay.GetTiles() :
             letterScore = self.letterScoreDictionary[tile.GetLetter()]
-            score += e ** (letterScore / 3)
+            score += letterScore ** 2
                 
         return score
 
@@ -136,8 +136,7 @@ class LetterScoringHeuristic :
     def ScoreWord(self, wordToPlay, hand) :
         score = 0
         for tile in wordToPlay.GetTiles() :
-            letterScore = self.letterScoreDictionary[tile.GetLetter()]
-            score += letterScore * letterScore
+            score += self.letterScoreDictionary[tile.GetLetter()]
 
         return score
 
@@ -170,8 +169,7 @@ class WordsInHandHeuristic :
         count = 0
         for value in result.values() :
             count += len(value)
-
-        return math.log10(count)
+        return count
 
     def Scale(self) :
         return self.scale
