@@ -61,7 +61,7 @@ class LongestWordHeuristic :
 class UncommonLettersHeuristic :
     def __init__(self, scale) :
         self.letterScoreDictionary = {}
-        tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
+        tiles = ReadInTilesFromFile("..\\Data\\processed_third_letters.txt")
         for tile in tiles :
             letter = tile.GetLetter()
             score = tile.GetScore()
@@ -84,7 +84,7 @@ class UncommonLettersHeuristic :
 class ConsonantVowelHeuristic :
     def __init__(self, scale) :
         self.letterScoreDictionary = {}
-        tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
+        tiles = ReadInTilesFromFile("..\\Data\\processed_third_letters.txt")
         for tile in tiles :
             letter = tile.GetLetter()
             if letter not in self.letterScoreDictionary  :
@@ -123,7 +123,7 @@ class ConsonantVowelHeuristic :
 class LetterScoringHeuristic :
     def __init__(self, scale) :
         self.letterScoreDictionary = {}
-        tiles = ReadInTilesFromFile("..\Data\processed_letters.txt")
+        tiles = ReadInTilesFromFile("..\Data\processed_third_letters.txt")
         for tile in tiles :
             letter = tile.GetLetter()
             score = tile.GetScore()
@@ -146,7 +146,7 @@ class LetterScoringHeuristic :
 class WordsInHandHeuristic :
     def __init__(self, scale) :
         self.letterDictioanry = {}
-        tiles = ReadInTilesFromFile("..\\Data\\processed_letters.txt")
+        tiles = ReadInTilesFromFile("..\\Data\\processed_third_letters.txt")
         for tile in tiles :
             letter = tile.GetLetter()
             if letter not in self.letterDictioanry  :
@@ -169,7 +169,7 @@ class WordsInHandHeuristic :
         count = 0
         for value in result.values() :
             count += len(value)
-        return count
+        return math.sqrt(count) / 10
 
     def Scale(self) :
         return self.scale

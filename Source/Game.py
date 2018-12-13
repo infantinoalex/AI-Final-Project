@@ -12,6 +12,7 @@ from Heuristics import *
 from ReadInFiles import ReadInTilesFromFile
 import Tile
 import sys
+import random
 
 class Game:
 	def __init__(self, heuristic):
@@ -50,8 +51,9 @@ class Game:
 			try :
 				word, anchor, anchorIndex, direction = self.bri.FindBestMove(self.hand, self.board)
 				playedWords.append(word.GetString())
-				#print(playedWords)
+				
 				self.board.PlaceWord(word, anchor, self.hand, anchorIndex, direction)
+				self.concurrentExceptions = 0
 				self.board.PrintBoard()
 
 				print()
@@ -70,6 +72,7 @@ class Game:
 			self.hand.AddTilesToHand(self.bunch.Peel())
 			for t in self.hand.PeekHand():
 				print(t.GetLetter(), end=" ")
+			print()
 
 			timeDiff = time.time() - timeStart
 			#print("Time:", timeDiff)
@@ -105,22 +108,62 @@ def main() :
 	#scoreWordScale = sys.argv[4]
 
 	#longestWordScale, uncommonLetterScale, ratioScale, scoreWordScale, playableWordsCheck
-	heuristic = CalculateHeuristic(0, 0, 1, 0, 0)
+	
+	size1 = 10
+	size2 = 3
 
-	scoreResults = []
-	remainingLetterResults = []
+	a = 1.0
+	b = 1.0
+	c = 1.0
+	d = 1.0
+	e = 1.0
+	lrate_a = 1
+	lrate_b = 1
+	lrate_c = 1
+	lrate_d = 1
+	lrate_e = 1
 
-	size = 10
+	heuristic = CalculateHeuristic(a, b, c, d, e)
+	game = Game(heuristic)
+	best_results = 100000
+	results = []
 
-	for i in range(size) :
-		game = Game(heuristic)
-		results = game.Play()
-		scoreResults.append(results[0])
-		remainingLetterResults.append(results[1])
+	for i in range(size1) :
 
-	print(sum(scoreResults) / len(scoreResults))
-	for i in range(size) :
-		print(scoreResults[i], ":", remainingLetterResults[i])
+		heuristic = CalculateHeuristic(a * lrate_a, b * lrate_b, c * lrate_c, d * lrate_d, e * lrate_e)
+
+		for j in range(size2) :
+			game = Game(heuristic)
+			results.append(game.Play()[0])
+
+		print("==================================================================")
+		print(results)
+		new_results = sum(results) / len(results)
+		print(new_results)
+
+		if new_results < best_results :
+			best_results = new_results
+			lrate_a = a * lrate_a
+			lrate_b = b * lrate_b
+			lrate_c = c * lrate_c
+			lrate_d = d * lrate_d
+			lrate_e = e * lrate_e
+			print("new a:", lrate_a)
+			print("new b:", lrate_b)
+			print("new c:", lrate_c)
+			print("new d:", lrate_d)
+			print("new e:", lrate_e)	
+		
+		lrate_a = random.uniform(0.0, 2.0)
+		lrate_b = random.uniform(0.0, 2.0)
+		lrate_c = random.uniform(0.0, 2.0)
+		lrate_d = random.uniform(0.0, 2.0)
+		lrate_e = random.uniform(0.0, 2.0)
+
+		print("==================================================================")
+
+	#for i in range(size) :
+	#	print(scoreResults[i], ":", remainingLetterResults[i])
 
 if __name__ == '__main__' :
 	main()
